@@ -1,0 +1,10 @@
+{% block center %}
+{{ form.media }}
+<form action="{% url feedback %}" method="post" id="feedback">
+    <table>
+        {{ form.as_table }}
+        <tr><td clospan="2" class="center"><input type="submit" /></td></tr>
+    </table>
+</form>
+
+{% endblock center %}

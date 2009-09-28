@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
-from feedback.utils import render_to_string
 from django.shortcuts import render_to_response
-
-from forms import FeedbackForm
+from feedback.utils import get_feedback_form
 
 def show_feedback_form(request):
     if request.method == 'POST':
-        form = FeedbackForm(request.POST)
+        form = get_feedback_form()(request.POST)
         if form.is_valid():
             form.mail()
             return render_to_response('feedback/thankyou.html', {'form': form})
     else:
-        form = FeedbackForm()
+        form = get_feedback_form()()
     return render_to_response('feedback/feedback.html', {'form': form})

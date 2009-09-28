@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
 from django.core.mail import send_mail
 from django.template import loader
+from django.core.exceptions import ImproperlyConfigured
+from django.conf import settings
+from feedback import settings as feedback_settings
 
 
 def email_backend(recipient_list, message, subject='Feedback'):
@@ -12,5 +14,14 @@ def email_backend(recipient_list, message, subject='Feedback'):
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL,
               recipient_list, fail_silently=False)
 
-def render_to_string(*args, **kwargs):
-    return loader.render_to_string(*args, **kwargs)
+def import_item(path, error_text):
+    """Imports a model by given string. In error case raises ImpoprelyConfigured"""
+    i = path.rfind('.')
+    module, attr = path[:i], path[i+1:]
+    try:
+        return getattr(__import__(module, {}, {}, ['']), attr)
+    except ImportError, e:
+        raise ImproperlyConfigured('Error importing %s %s: "%s"' % (error_text, path, e))
+
+def get_feedback_form():
+    return import_item(feedback_settings.FEEDBACK_FORM, 'can not import feedback form')

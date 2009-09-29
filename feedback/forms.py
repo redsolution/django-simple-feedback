@@ -21,7 +21,7 @@ class BaseFeedbackForm(forms.Form):
         context = {}
         to = [email_tuple[1] for email_tuple in settings.MANAGERS]
         for name, field in self.fields.iteritems():
-            context[name] = getattr(self, name, None)
+            context[name] = self.cleaned_data.get(name, None)
         message = render_to_string('feedback/feedback_message.txt', context)
         email_backend(to, message, subject=self.subject % context)
 

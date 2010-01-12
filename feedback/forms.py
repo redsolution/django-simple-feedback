@@ -31,3 +31,5 @@ class FeedbackForm(BaseFeedbackForm):
     topic = forms.CharField(label=u'Тема', max_length=200)
     response = forms.CharField(label=u'Текст сообщения', max_length=500,
                                widget=FeedbackWidget(attrs={'rows': 5, 'cols': 30}))
+    subject = u'Форма обратной связи'
+

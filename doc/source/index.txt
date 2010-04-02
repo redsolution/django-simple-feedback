@@ -2,22 +2,54 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Simple Django feedback application
-====================================
+Simple Django feedback application usage
+========================================
 
-.. describe:: Usage
 
+1. Install application
+``````````````````````
+
+    Add ``feedback`` to INSTALLED_APPS::
+        
+        INSTALLED_APPS = [
+            ...
+            'feedback',
+            ...
+        ]
+
+2. Load and use feedback template tags 
+``````````````````````````````````````
+    
     Insert 
+
+        ``{% load feedback_tags %}``
+
+    in your template and insert
     
         ``{% show_feedback %}``
     
-    template tag in your template and include something like
+    template tag in your template, where you want to see feedback form.
+
+.. describe:: Requriments
+
+   Note that feedback uses ajax form based on jQuery, so you need to include jQuery
+   in your page. You can install it from Google hosting. Just include 
+
+        ``<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>``
+
+    in ``<head>`` element.
+    
+3. Install feedback in urlconf
+``````````````````````````````
+    Just include::
         
-        ``(r'^feedback/', include('feedback.urls'))``
+        (r'^feedback/', include('feedback.urls'))
 
     in urlpatterns. That's all!
 
-.. describe:: Templates
+
+4. Customize templates
+``````````````````````
 
     Application uses following templates:
 

@@ -3,7 +3,6 @@ from django.core.mail import send_mail
 from django.template import loader
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
-from feedback import settings as feedback_settings
 
 
 def email_backend(recipient_list, message, subject='Feedback'):
@@ -24,4 +23,5 @@ def import_item(path, error_text):
         raise ImproperlyConfigured('Error importing %s %s: "%s"' % (error_text, path, e))
 
 def get_feedback_form():
-    return import_item(feedback_settings.FEEDBACK_FORM, 'can not import feedback form')
+    from feedback.settings import FEEDBACK_FORM
+    return import_item(FEEDBACK_FORM, 'can not import feedback form')

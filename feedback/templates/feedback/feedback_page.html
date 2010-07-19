@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n feedback_tags %}
+
+{% block head %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" ></script>
+{% endblock head %}
+
+{% block content %}
+    <h1>{% trans "Feedback" %}</h1>
+    {% show_feedback %}
+{% endblock %}

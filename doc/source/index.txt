@@ -48,15 +48,26 @@ Simple Django feedback application usage
     in urlpatterns. That's all!
 
 
-4. Customize templates
-``````````````````````
+4. Customize
+````````````
 
     Application uses following templates:
 
         ``fedback/feedback.html`` - to render feedback form
+        
+        ``fedback/feedback_page.html`` - to render a page with feedback form
 
         ``feedback/thankyou.html`` - to render message after submit
 
         ``feedback/feedback_message.txt`` - to render message, that will 
         be sent after user posts form
 
+	You can customize these settings in your settings.py:
+	
+
+		``FEEDBACK_FORM`` - form, that will be displayed to user. 
+		By default form contains email, topic and response fields
+		
+		``DIRECT_TO_TEMPLATE`` - Should application render feedback form 
+		direct to template ``fedback/feedback_page.html``, or you prefer to use
+		template tag in other templates.

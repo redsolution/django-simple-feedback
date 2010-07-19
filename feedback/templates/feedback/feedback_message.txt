@@ -1,5 +1,6 @@
-Отправитель: {{ email }}
-Тема:        {{ topic }}
+{% load i18n %}
+{% trans 'Sender' %}: {{ email }}
+{% trans 'Topic' %}:        {{ topic }}
 =======================
 
 {{ response }}

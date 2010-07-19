@@ -1,7 +1,8 @@
 Simple Django feedback application
 ====================================
 
-.. describe:: Usage
+Usage
+`````
 
     Add ``feedback`` to INSTALLED_APPS
         
@@ -26,7 +27,8 @@ Simple Django feedback application
 
     in urlpatterns. That's all!
     
-.. describe:: Requriments
+Requriments
+```````````
 
    Note that feedback uses ajax form based on jQuery, so you need to include jQuery
    in your page. You can install it from Google hosting. Just include 
@@ -35,7 +37,8 @@ Simple Django feedback application
 
     in <head> element.
 
-.. describe:: Customize
+Customize
+`````````
 
 	You can customize these settings in your settings.py:
 	

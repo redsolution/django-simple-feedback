@@ -4,43 +4,43 @@ Simple Django feedback application
 Usage
 `````
 
-    Add ``feedback`` to INSTALLED_APPS
-        
-        INSTALLED_APPS = [
-            ...
-            'feedback',
-            ...
-        ]
-
-    Load feedback template tags:
+Add ``feedback`` to INSTALLED_APPS
     
+    INSTALLED_APPS = [
+        ...
+        'feedback',
+        ...
+    ]
 
-        ``{% load feedback_tags %}``
+Load feedback template tags:
 
-    Insert template tag in your template
+
+    ``{% load feedback_tags %}``
+
+Insert template tag in your template
+
+    ``{% show_feedback %}``
+
+Include something like
     
-        ``{% show_feedback %}``
-    
-    Include something like
-        
-        ``(r'^feedback', include('feedback.urls'))``
+    ``(r'^feedback', include('feedback.urls'))``
 
-    in urlpatterns. That's all!
+in urlpatterns. That's all!
     
 Requriments
 ```````````
 
-   Note that feedback uses ajax form based on jQuery, so you need to include jQuery
-   in your page. You can install it from Google hosting. Just include 
+Note that feedback uses ajax form based on jQuery, so you need to include jQuery
+in your page. You can install it from Google hosting. Just include 
 
-        ``<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>``
+	``<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>``
 
-    in <head> element.
+in <head> element.
 
 Customize
 `````````
 
-	You can customize these settings in your settings.py:
+You can customize these settings in your settings.py:
 	
 
 		``FEEDBACK_FORM`` - form, that will be displayed to user. 

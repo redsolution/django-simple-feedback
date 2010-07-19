@@ -1,6 +1,6 @@
 ;
 $(document).ready(function(){
-    $('#feedback').live('submit', function(){
+    $('#id_feedback_form').live('submit', function(){
         var data = {};
         var feedback_url = $(this).attr('action');
         $(this).find(':input').each(function(){
@@ -14,5 +14,5 @@ $(document).ready(function(){
 });
 
 function load_feedback(data, textStatus){
-    $('#feedback').replaceWith(data).show();
+    $('#id_feedback_form').replaceWith(data).show();
 }

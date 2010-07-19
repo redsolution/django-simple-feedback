@@ -43,7 +43,7 @@ Simple Django feedback application usage
 ``````````````````````````````
     Just include::
         
-        (r'^feedback/', include('feedback.urls'))
+        (r'^feedback', include('feedback.urls'))
 
     in urlpatterns. That's all!
 
@@ -69,5 +69,5 @@ Simple Django feedback application usage
 		By default form contains email, topic and response fields
 		
 		``DIRECT_TO_TEMPLATE`` - Should application render feedback form 
-		direct to template ``fedback/feedback_page.html``, or you prefer to use
+		direct to template ``feedback/feedback_page.html``, or you prefer to use
 		template tag in other templates.

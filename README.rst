@@ -22,7 +22,7 @@ Simple Django feedback application
     
     Include something like
         
-        ``(r'^feedback/', include('feedback.urls'))``
+        ``(r'^feedback', include('feedback.urls'))``
 
     in urlpatterns. That's all!
     

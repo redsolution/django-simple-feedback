@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from feedback.utils import get_feedback_form
 
+
 def show_feedback_form(request):
     if request.method == 'POST':
         form = get_feedback_form()(request.POST)

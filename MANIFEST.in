@@ -1,0 +1,4 @@
+recursive-include feedback *.html
+recursive-include feedback *.cfg
+recursive-include feedback *.conf
+recursive-include feedback *.py

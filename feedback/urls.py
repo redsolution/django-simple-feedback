@@ -10,5 +10,5 @@ else:
     urlpatterns = patterns('')
 
 urlpatterns += patterns('feedback.views',
-    url(r'^/ajax$', 'show_feedback_form', name='ajax_feedback'),
+    url(r'ajax/$', 'show_feedback_form', name='ajax_feedback'),
 )

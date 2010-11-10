@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-19 18:26+0600\n"
+"POT-Creation-Date: 2010-11-10 20:21+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ivan Gromov <ivan.gromov@redsolution.ru>\n"
 "Language-Team: RU <src@redsolution.ru>\n"
@@ -16,13 +16,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: forms.py:44
+msgid "Email"
+msgstr "Электронная почта"
+
+#: forms.py:45
+msgid "Topic"
+msgstr "Тема"
+
+#: forms.py:46
+msgid "Message text"
+msgstr "Текст сообщения"
+
+#: forms.py:48
+msgid "Feedback form"
+msgstr "Обратная связь"
+
+#: grandma_setup/templates/feedback/grandma/settings_menu.py:7
+#: templates/feedback/feedback_page.html:10
+msgid "Feedback"
+msgstr "Обратная связь"
+
 #: templates/feedback/feedback.html:6
 msgid "Send"
 msgstr "Отправить"
-
-#: templates/feedback/feedback_page.html:9
-msgid "Feedback"
-msgstr "Обратная связь"
 
 #: templates/feedback/thankyou.html:2
 msgid "Your feedback sent, thank you! "

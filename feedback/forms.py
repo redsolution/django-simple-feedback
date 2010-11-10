@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from feedback.utils import email_backend
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string
 
 
@@ -18,18 +18,31 @@ class BaseFeedbackForm(forms.Form):
 #        return media
 
     def mail(self):
-        context = {}
-        to = [email_tuple[1] for email_tuple in settings.MANAGERS]
+        # prepare context for message
+        context = {'fields': {}}
         for name, field in self.fields.iteritems():
+            context['fields'][name] = self.cleaned_data.get(name, None)
+            # leaved for compatibility. Wil be removed in feedback v 1.2
             context[name] = self.cleaned_data.get(name, None)
-        message = render_to_string('feedback/feedback_message.txt', context)
-        email_backend(to, message, subject=self.subject % context)
+
+        message = render_to_string('feedback_message.txt', context)
+
+        # generate subject considering settings variable EMAIL_SUBJECT_PREFIX
+        subject = settings.EMAIL_SUBJECT_PREFIX + u'feedback'
+
+        # Email backends appears only in Django 1.2
+        import django
+        if django.VERSION < (1, 2):
+            from feedback.utils import email_backend
+            email_backend(to, message, subject=self.subject % context)
+        else:
+            from django.core.mail import mail_managers
+            mail_managers(subject, message, fail_silently=False)
 
 
 class FeedbackForm(BaseFeedbackForm):
-    email = forms.CharField(label=u'Email', max_length=200)
-    topic = forms.CharField(label=u'Тема', max_length=200)
-    response = forms.CharField(label=u'Текст сообщения', max_length=500,
+    email = forms.EmailField(label=_('Email'), max_length=200)
+    topic = forms.CharField(label=_('Topic'), max_length=200)
+    response = forms.CharField(label=_('Message text'), max_length=500,
                                widget=FeedbackWidget(attrs={'rows': 5, 'cols': 30}))
-    subject = u'Форма обратной связи'
-
+    subject = _('Feedback form')

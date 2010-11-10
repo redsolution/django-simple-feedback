@@ -3,4 +3,8 @@
 {% trans 'Topic' %}:        {{ topic }}
 =======================
 
-{{ response }}
+{% trans 'Form data' %}:
+
+{% for key, field in fields.iteritems %}
+{{ key }}: {{ field }} 
+{% endfor %}

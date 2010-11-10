@@ -1,0 +1,2 @@
+Simple application, that provides customizable email form tempalte tag.
+You can specify form fields and optionally enable dedicated view to render feedback page.

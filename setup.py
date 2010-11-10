@@ -7,15 +7,17 @@ from setuptools import setup, find_packages
 # README file and 2) it's easier to type in the README file than to put a raw
 # string in below ...
 def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+    try:
+        return open(os.path.join(os.path.dirname(__file__), fname)).read()
+    except IOError:
+        return ''
 
 setup(
-    name="grandma.django_simple_feedback",
+    name="redsolutioncms.django-simple-feedback",
     version="0.1.0",
-    description=("Simple Django feedback application" +
-        " with GrandmaCMS integration"),
-    license="LGPL",
-    keywords="django feedback",
+    description=read('DESCRIPTION'),
+    license="GPLv3",
+    keywords="django feedback form",
 
     author="Ivan Gromov",
     author_email="ivan.gromov@redsolution.ru",
@@ -26,21 +28,22 @@ setup(
     url="http://packages.python.org/django-server-config",
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Framework :: Buildout',
         'Intended Audience :: Developers',
-        'License :: Freely Distributable',
+        'License :: OSI Approved :: GNU General Public License (GPL)',
+        'Framework :: Django',
+        'Environment :: Web Environment',
         'Natural Language :: Russian',
-        'Operating System :: Microsoft :: Windows',
-        'Operating System :: Unix',
-        'Programming Language :: Python :: 2.5',
-        'Topic :: Software Development :: Version Control',
+        'Natural Language :: English',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     packages=find_packages(),
     install_requires=[],
     include_package_data=True,
     zip_safe=False,
-    long_description=open('README.rst').read(),
+    long_description=open('README').read(),
     entry_points={
-        'grandma_setup': ['feedback = feedback.grandma_setup', ],
+        'redsolutioncms': ['feedback = feedback.redsolution_setup', ],
     }
 )

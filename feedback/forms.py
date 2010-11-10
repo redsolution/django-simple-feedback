@@ -25,7 +25,7 @@ class BaseFeedbackForm(forms.Form):
             # leaved for compatibility. Wil be removed in feedback v 1.2
             context[name] = self.cleaned_data.get(name, None)
 
-        message = render_to_string('feedback_message.txt', context)
+        message = render_to_string('feedback/feedback_message.txt', context)
 
         # generate subject considering settings variable EMAIL_SUBJECT_PREFIX
         subject = settings.EMAIL_SUBJECT_PREFIX + u'feedback'

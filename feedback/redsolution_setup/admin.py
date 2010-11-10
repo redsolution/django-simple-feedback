@@ -9,9 +9,3 @@ class FormFieldInline(admin.TabularInline):
 class FeedbackSettingsAdmin(CMSBaseAdmin):
     model = FeedbackSettings
     inlines = [FormFieldInline,]
-
-
-try:
-    admin.site.register(FeedbackSettingsAdmin)
-except admin.sites.AlreadyRegistered:
-    pass

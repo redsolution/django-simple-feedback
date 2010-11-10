@@ -1,4 +1,3 @@
-recursive-include feedback *.html
-recursive-include feedback *.cfg
-recursive-include feedback *.conf
-recursive-include feedback *.py
+recursive-include feedback *
+include README README.rst DESCRIPTION INSTALL.txt
+exclude *.orig *.pyc

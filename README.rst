@@ -4,7 +4,7 @@ Simple Django feedback application
 Usage
 `````
 
-Add ``feedback`` to INSTALLED_APPS
+Add ``feedback`` to INSTALLED_APPS ::
     
     INSTALLED_APPS = [
         ...

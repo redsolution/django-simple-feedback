@@ -38,5 +38,6 @@ class FeedbackSettings(BaseSettings):
 class FormField(models.Model):
     feedback_settings = models.ForeignKey('FeedbackSettings')
     field_type = models.CharField(verbose_name=_('Type of field'),
-        choices=FIELD_TYPES)
-    field_name = models.CharField(verbose_name=_('Verbose name of field'))
+        choices=FIELD_TYPES, max_length=255)
+    field_name = models.CharField(verbose_name=_('Verbose name of field'),
+        max_length=255)

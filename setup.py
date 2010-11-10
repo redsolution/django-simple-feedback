@@ -25,7 +25,6 @@ setup(
     maintainer="Ivan Gromov",
     maintainer_email="ivan.gromov@redsolution.ru",
 
-    url="http://packages.python.org/django-server-config",
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
@@ -42,7 +41,7 @@ setup(
     install_requires=[],
     include_package_data=True,
     zip_safe=False,
-    long_description=open('README').read(),
+    long_description=read('README'),
     entry_points={
         'redsolutioncms': ['feedback = feedback.redsolution_setup', ],
     }

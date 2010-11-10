@@ -55,3 +55,10 @@ To find out more documentation, run in doc folder
     ./doc$ make html
 
 and browse documentation in doc/build/html
+
+Redsolution CMS classifiers:
+````````````````````````````
+
+`Content plugins`_
+
+.. _`Content plugins`: http://www.redsolutioncms.org/classifiers/content

@@ -1,5 +1,5 @@
 {% load i18n %}
-<script type="text/javascript" src="/media/feedback/js/feedback.js"></script>
+{{ form.media }}
 <form action="{% url ajax_feedback %}" method="post" id="id_feedback_form">
     <table>
         {{ form.as_table }}

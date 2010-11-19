@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 class BogusSMTPConnection(object):
     """Instead of sending emails, print them to the console."""

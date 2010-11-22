@@ -18,7 +18,7 @@ class BaseFeedbackForm(forms.Form):
             label=_('Form type'),
             widget=forms.HiddenInput(),
             max_length=100,
-            initial=self._get_settings_key,
+            initial=self.get_settings_key,
         )
 
     def mail(self):
@@ -28,7 +28,7 @@ class BaseFeedbackForm(forms.Form):
             context['fields'][name] = self.cleaned_data.get(name, None)
             # leaved for compatibility. Wil be removed in feedback v 1.2
             context[name] = self.cleaned_data.get(name, None)
-
+        context['form'] = self
         message = render_to_string(self.get_template(), context)
 
         # generate subject considering settings variable EMAIL_SUBJECT_PREFIX
@@ -43,7 +43,7 @@ class BaseFeedbackForm(forms.Form):
             from django.core.mail import mail_managers
             mail_managers(subject, message, fail_silently=False)
 
-    def _get_settings_key(self):
+    def get_settings_key(self):
         '''Finds self class in settings.FEEDBACK_FORMS dictionary
         and returns appropriate key
         '''
@@ -64,7 +64,7 @@ class BaseFeedbackForm(forms.Form):
             reverse_forms_dict = dict(
                 (v.rsplit('.', 1)[1], k) for k, v in FEEDBACK_FORMS.iteritems()
             )
-            form_settings_key = self._get_settings_key()
+            form_settings_key = self.get_settings_key()
             return 'feedback/' + form_settings_key + '.txt'
 
     def get_template(self):

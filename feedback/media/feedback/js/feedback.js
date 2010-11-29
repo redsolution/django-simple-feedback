@@ -9,9 +9,6 @@ feedback = {
             data[key] = value;
         });
         
-        console.log($(form).find(':input'));
-        console.log(data);
-        
         $.post(feedback_url, data, function(data, textStatus){
             $(form).replaceWith(data).show();
         });

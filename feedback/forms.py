@@ -2,7 +2,7 @@
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.template.loader import render_to_string, find_template, TemplateDoesNotExist
+from django.template.loader import render_to_string, TemplateDoesNotExist
 from feedback.settings import FEEDBACK_FORMS
 
 
@@ -38,7 +38,10 @@ class BaseFeedbackForm(forms.Form):
         import django
         if django.VERSION < (1, 2):
             from feedback.utils import email_backend
-            email_backend(to, message, subject=self.subject % context)
+            if not settings.MANAGERS:
+                return
+            email_backend([a[1] for a in settings.MANAGERS],
+                message, subject=self.subject % context)
         else:
             from django.core.mail import mail_managers
             mail_managers(subject, message, fail_silently=False)
@@ -72,9 +75,15 @@ class BaseFeedbackForm(forms.Form):
         returns ``get_template_name`` result. Otherwise returns default
         template name used in older versions ``feedback/feedback_message.txt``
         '''
+        import django
         template_name = self.get_template_name()
         try:
-            find_template(template_name)
+            if django.VERSION < (1, 2):
+                from django.template.loader import find_template_source
+                find_template_source(template_name)
+            else:
+                from django.template.loader import find_template
+                find_template(template_name)
             return template_name
         except TemplateDoesNotExist:
             return 'feedback/feedback_message.txt'

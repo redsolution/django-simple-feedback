@@ -1,10 +1,7 @@
-{% load i18n %}
-{% trans 'Sender' %}: {{ email }}
-{% trans 'Topic' %}:        {{ topic }}
-=======================
+{% load i18n feedback_tags %}
+{{ subject }}
+==============
 
-{% trans 'Form data' %}:
-
-{% for key, field in fields.iteritems %}
-{{ key }}: {{ field }} 
+{% for field in form %}
+{{ field.label }}: {{ field|get_choice_value }}
 {% endfor %}

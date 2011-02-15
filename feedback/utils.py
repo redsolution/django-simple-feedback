@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.template import loader
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings

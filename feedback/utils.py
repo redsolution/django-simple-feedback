@@ -3,6 +3,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.template import loader
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
+from django.utils.translation import string_concat
 
 
 # Not used in Django >= 1.2
@@ -35,7 +36,7 @@ def mail_managers(subject, message, fail_silently):
     '''
     if not settings.ADMINS:
         return
-    EmailMessage(settings.EMAIL_SUBJECT_PREFIX + subject, message,
+    EmailMessage(string_concat(settings.EMAIL_SUBJECT_PREFIX, subject), message,
                  settings.DEFAULT_FROM_EMAIL, [a[1] for a in settings.ADMINS],
                  connection=connection).send(fail_silently=fail_silently)
 
@@ -45,6 +46,6 @@ def mail_managers(subject, message, fail_silently=False, connection=None):
     """
     if not settings.MANAGERS:
         return
-    EmailMessage(settings.EMAIL_SUBJECT_PREFIX + subject, message,
+    EmailMessage(string_concat(settings.EMAIL_SUBJECT_PREFIX, subject), message,
                  settings.DEFAULT_FROM_EMAIL, [a[1] for a in settings.MANAGERS],
                  connection=connection).send(fail_silently=fail_silently)

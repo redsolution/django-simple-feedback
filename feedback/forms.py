@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string, TemplateDoesNotExist
 from feedback.settings import FEEDBACK_FORMS
+from feedback.utils import mail_managers
 
 
 class BaseFeedbackForm(forms.Form):
@@ -32,19 +33,8 @@ class BaseFeedbackForm(forms.Form):
         message = render_to_string(self.get_template(), context)
 
         # generate subject considering settings variable EMAIL_SUBJECT_PREFIX
-        subject = settings.EMAIL_SUBJECT_PREFIX + u'feedback'
-
-        # Email backends appears only in Django 1.2
-        import django
-        if django.VERSION < (1, 2):
-            from feedback.utils import email_backend
-            if not settings.MANAGERS:
-                return
-            email_backend([a[1] for a in settings.MANAGERS],
-                message, subject=self.subject % context)
-        else:
-            from django.core.mail import mail_managers
-            mail_managers(subject, message, fail_silently=False)
+        subject = _('feedback')
+        mail_managers(subject, message, fail_silently=False)
 
     def get_settings_key(self):
         '''Finds self class in settings.FEEDBACK_FORMS dictionary

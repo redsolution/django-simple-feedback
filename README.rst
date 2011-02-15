@@ -88,7 +88,8 @@ Now we can include ``{% show_feedback default %}`` in  template and get override
 What's new
 ``````````
 
-Improved email template. Now verbose names of fields and checkbox values rendered humanized way :)
+0.1.3 - Improved email template. Now verbose names of fields and checkbox values rendered humanized way :)
+0.1.4 - Fixed server email setting.
 
 Redsolution CMS classifiers:
 ````````````````````````````

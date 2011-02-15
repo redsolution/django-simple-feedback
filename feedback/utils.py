@@ -28,3 +28,23 @@ def get_feedback_form(key):
     if key not in FEEDBACK_FORMS:
         raise ImproperlyConfigured('Form %s not registered in FEEDBACK_FORMS' % key)
     return import_item(FEEDBACK_FORMS[key], 'can not import feedback form')
+
+def mail_managers(subject, message, fail_silently):
+    '''Repalcement for standars Django function.
+    It uses ``DEFAULT_FROM_EMAIL`` setting instead ``SERVR_FROM_EMAIL``
+    '''
+    if not settings.ADMINS:
+        return
+    EmailMessage(settings.EMAIL_SUBJECT_PREFIX + subject, message,
+                 settings.DEFAULT_FROM_EMAIL, [a[1] for a in settings.ADMINS],
+                 connection=connection).send(fail_silently=fail_silently)
+
+def mail_managers(subject, message, fail_silently=False, connection=None):
+    """Sends a message to the managers, as defined by the MANAGERS setting.
+    It uses ``DEFAULT_FROM_EMAIL`` setting instead ``SERVR_FROM_EMAIL``
+    """
+    if not settings.MANAGERS:
+        return
+    EmailMessage(settings.EMAIL_SUBJECT_PREFIX + subject, message,
+                 settings.DEFAULT_FROM_EMAIL, [a[1] for a in settings.MANAGERS],
+                 connection=connection).send(fail_silently=fail_silently)

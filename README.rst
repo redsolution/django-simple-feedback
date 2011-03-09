@@ -89,7 +89,10 @@ What's new
 ``````````
 
 0.1.3 - Improved email template. Now verbose names of fields and checkbox values rendered humanized way :)
+
 0.1.4 - Fixed server email setting.
+
+0.1.5 - Fixed select boxes in forms
 
 Redsolution CMS classifiers:
 ````````````````````````````

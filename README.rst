@@ -94,6 +94,8 @@ What's new
 
 0.1.5 - Fixed select boxes in forms
 
+0.1.6 - Added class "feedback_form" for form in template
+
 Redsolution CMS classifiers:
 ````````````````````````````
 

@@ -11,7 +11,7 @@ def show_ajax_response(request, key='default'):
         FormClass = get_feedback_form(request.POST.get('form_settings_key', key))
         form = FormClass(request.POST)
         if form.is_valid():
-            form.mail()
+            form.mail(request)
             return render_to_response('feedback/thankyou.html', {'form': form},
                 context_instance=RequestContext(request))
         else:

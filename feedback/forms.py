@@ -12,6 +12,8 @@ class BaseFeedbackForm(forms.Form):
     class Media:
         js = ((settings.MEDIA_URL + 'feedback/js/feedback.js'),)
 
+    subject = _('feedback')
+
     def __init__(self, *args, **kwds):
         '''Overriden: Creates additional form key hidden field'''
         super(BaseFeedbackForm, self).__init__(*args, **kwds)
@@ -22,19 +24,21 @@ class BaseFeedbackForm(forms.Form):
             initial=self.get_settings_key,
         )
 
-    def mail(self):
+    def mail(self, request):
         # prepare context for message
+        context = self.get_context_data(request)
+        message = render_to_string(self.get_template(), context)
+        mail_managers(self.subject, message, fail_silently=False)
+
+    def get_context_data(self, request):
         context = {'fields': {}}
         for name, field in self.fields.iteritems():
             context['fields'][name] = self.cleaned_data.get(name, None)
-            # leaved for compatibility. Wil be removed in feedback v 1.2
+            # leaved for compatibility. Will be removed in feedback v 1.2
             context[name] = self.cleaned_data.get(name, None)
         context['form'] = self
-        message = render_to_string(self.get_template(), context)
-
-        # generate subject considering settings variable EMAIL_SUBJECT_PREFIX
-        subject = _('feedback')
-        mail_managers(subject, message, fail_silently=False)
+        context['request'] = request
+        return context
 
     def get_settings_key(self):
         '''Finds self class in settings.FEEDBACK_FORMS dictionary

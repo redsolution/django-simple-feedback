@@ -98,6 +98,8 @@ What's new
 
 0.1.7 - Fixed ajax submit
 
+0.1.8 - Added request to the message's context.
+
 Redsolution CMS classifiers:
 ````````````````````````````
 

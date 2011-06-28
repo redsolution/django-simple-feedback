@@ -96,6 +96,8 @@ What's new
 
 0.1.6 - Added class "feedback_form" for form in template
 
+0.1.7 - Fixed ajax submit
+
 Redsolution CMS classifiers:
 ````````````````````````````
 

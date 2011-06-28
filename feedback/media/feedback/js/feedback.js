@@ -3,6 +3,7 @@ feedback = {
     submit: function(form){
         var data = {};
 
+        var feedback_url = $(form).attr('action');
         var form_array = $(form).serializeArray();
         for (i=0;i<form_array.length;i++){
             var key = form_array[i].name;

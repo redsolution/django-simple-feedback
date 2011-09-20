@@ -8,30 +8,51 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-11 00:52+0500\n"
+"POT-Creation-Date: 2011-09-20 15:14+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ivan Gromov <ivan.gromov@redsolution.ru>\n"
 "Language-Team: RU <src@redsolution.ru>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 
-#: forms.py:44
+#: forms.py:15
+#, fuzzy
+msgid "feedback"
+msgstr "Обратная связь"
+
+#: forms.py:104
 msgid "Email"
 msgstr "Электронная почта"
 
-#: forms.py:45
+#: forms.py:105
 msgid "Topic"
 msgstr "Тема"
 
-#: forms.py:46
+#: forms.py:106
 msgid "Message text"
 msgstr "Текст сообщения"
 
-#: forms.py:48
+#: forms.py:108
 msgid "Feedback form"
 msgstr "Обратная связь"
+
+#: models.py:12
+msgid "Sending time"
+msgstr "Время отправки"
+
+#: models.py:13
+msgid "Content response"
+msgstr "Содержимое отзыва"
+
+#: models.py:27
+msgid "response"
+msgstr "отзыв"
+
+#: models.py:28
+msgid "responses"
+msgstr "отзывы"
 
 #: redsolution_setup/models.py:8
 msgid "Checkbox"
@@ -59,9 +80,27 @@ msgstr "Тип поля"
 
 #: redsolution_setup/models.py:42
 msgid "Verbose name of field"
-msgstr "Название поле"
+msgstr "Название поля"
 
-#: templates/feedback/feedback.html:6
+#: templates/admin/change_form_template.html:4
+msgid "View response"
+msgstr "Просмотр отзыва"
+
+#: templates/admin/change_form_template.html:7
+#, python-format
+msgid "\"%(subject)s\" response"
+msgstr "Просмотр отзыва, отправленного через форму &laquo;%(subject)s&raquo;"
+
+#: templates/admin/change_form_template.html:15
+msgid "Field"
+msgstr "Поле"
+
+#: templates/admin/change_form_template.html:16
+#, fuzzy
+msgid "Content"
+msgstr "Содержимое отзыва"
+
+#: templates/feedback/feedback.html:7
 msgid "Send"
 msgstr "Отправить"
 
@@ -72,3 +111,4 @@ msgstr "Обратная связь"
 #: templates/feedback/thankyou.html:2
 msgid "Your feedback sent, thank you! "
 msgstr "Ваш отзыв принят, спасибо!"
+

@@ -1,7 +1,32 @@
+#-*- coding: utf-8 -*-
+
+import simplejson as json
+
 from django.db import models
-
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
+class Response(models.Model):
+    """Class contains responses sent by users"""
+    
+    send_time = models.DateTimeField(auto_now_add=True,verbose_name=_('Sending time'))
+    response = models.TextField(verbose_name=_('Content response'))
+    
+    def set_response(self, serialize_form):
+        setattr(self, 'response', 
+                json.dumps(serialize_form.get_dictionary()))
+        
+    def get_response(self):
+        return json.loads(getattr(self, 'response'))
+    
+    def __unicode__(self):
+        sended = self.send_time.strftime('%d.%m.%Y %H:%M')
+        return 'Response for %(sended)s' % {'sended': sended}
+    
+    class Meta:
+        verbose_name = _('response')
+        verbose_name_plural = _('responses')
+    
 # probably it isn't a model, but in __init__.py this code breaks setup.py
 
 class BogusSMTPConnection(object):

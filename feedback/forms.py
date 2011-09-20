@@ -13,6 +13,8 @@ class BaseFeedbackForm(forms.Form):
         js = ((settings.MEDIA_URL + 'feedback/js/feedback.js'),)
 
     subject = _('feedback')
+    
+    serialized_fields = ()
 
     def __init__(self, *args, **kwds):
         '''Overriden: Creates additional form key hidden field'''
@@ -81,6 +83,21 @@ class BaseFeedbackForm(forms.Form):
             return template_name
         except TemplateDoesNotExist:
             return 'feedback/feedback_message.txt'
+        
+    def get_dictionary(self):
+        
+        if (self.is_valid()):
+            field_dictionary = {'subject': self.subject}
+            
+            counter = 0
+            for field in self.serialized_fields:
+#                field_dictionary[self[field].label] = self.cleaned_data[field]
+                field_dictionary[str(counter)] = {
+                    'key':self[field].label,
+                    'value':self.cleaned_data[field]}
+                counter += 1
+                
+            return field_dictionary
 
 
 class FeedbackForm(BaseFeedbackForm):
@@ -89,3 +106,5 @@ class FeedbackForm(BaseFeedbackForm):
     response = forms.CharField(label=_('Message text'), max_length=500,
         widget=forms.Textarea(attrs={'cols':'30', 'rows':'5'}))
     subject = _('Feedback form')
+    
+    serialized_fields = ('email', 'topic', 'response',)

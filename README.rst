@@ -11,9 +11,12 @@ Add ``feedback`` to INSTALLED_APPS ::
         'feedback',
         ...
     ]
+    
+Synchronize your database models:
+
+	``django syncdb``
 
 Load feedback template tags:
-
 
     ``{% load feedback_tags %}``
 
@@ -88,17 +91,7 @@ Now we can include ``{% show_feedback default %}`` in  template and get override
 What's new
 ``````````
 
-0.1.3 - Improved email template. Now verbose names of fields and checkbox values rendered humanized way :)
-
-0.1.4 - Fixed server email setting.
-
-0.1.5 - Fixed select boxes in forms
-
-0.1.6 - Added class "feedback_form" for form in template
-
-0.1.7 - Fixed ajax submit
-
-0.1.8 - Added request to the message's context.
+0.2 - Models for storing responses in DB created. Responses representation for admin interface added.
 
 Redsolution CMS classifiers:
 ````````````````````````````

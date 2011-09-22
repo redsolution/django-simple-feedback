@@ -46,9 +46,12 @@ Settings
 ````````
 
 ``DIRECT_TO_TEMPLATE`` - When ``True``, application will show **default** feedback form 
-with template ``fedback/feedback_page.html`` where feedback urls were included. 
+with template ``feedback/feedback_page.html`` where feedback urls were included. 
 If you set this setting to ``False`` you should display feedback form manually, 
 by including ``{% show_feedback [key] %}`` tag into template. 
+
+``FEEDBACK_FILE_SIZE`` - This parameter sets attachments maximum file size in megabytes.
+Default value is 2 MB.
 
 
 Customize
@@ -68,6 +71,7 @@ create an application with your forms. All feedback forms should be subclasses o
         phone = forms.CharField(label=u'Phone', max_length=200)
         address = forms.CharField(label=u'Your address', max_length=200)
         date = forms.CharField(label=u'Date and time', max_length=200)
+        file = forms.FileField(label=u'Attach the file')
     
         response = forms.CharField(label=u'Comment', max_length=500,
             widget=forms.Textarea(attrs={'cols':'30', 'rows':'5'}))
@@ -77,7 +81,7 @@ create an application with your forms. All feedback forms should be subclasses o
 
 ``subject`` attribute appears in email subject.
 
-``serialized_fields`` attribute contains names of fields, which will be stored in DB. 
+``serialized_fields`` attribute contains names of fields, those will be stored in DB. 
 
 Than, you need to put feedback forms in your settings.py:
 
@@ -95,7 +99,9 @@ Now we can include ``{% show_feedback default %}`` in  template and get override
 What's new
 ``````````
 
-0.2 - Models for storing responses in DB created. Responses representation for admin interface added.
+0.2.0 - Models for storing responses in DB created. Responses representation for admin interface added.
+
+0.2.1 - Form attachments added. Attachments are sent by email.
 
 Redsolution CMS classifiers:
 ````````````````````````````

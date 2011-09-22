@@ -10,3 +10,5 @@ DIRECT_TO_TEMPLATE = getattr(settings, 'DIRECT_TO_TEMPLATE', True)
 FEEDBACK_FORMS = getattr(settings, 'FEEDBACK_FORMS', {
     'default': FEEDBACK_FORM,
 })
+
+FEEDBACK_ATTACHMENT_SIZE = getattr(settings, 'FEEDBACK_ATTACHMENT_SIZE', 2)

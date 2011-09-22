@@ -11,7 +11,7 @@ from django.core import serializers
 def show_ajax_response(request, key='default'):
     if request.method == 'POST':
         FormClass = get_feedback_form(request.POST.get('form_settings_key', key))
-        form = FormClass(request.POST)
+        form = FormClass(request.POST, request.FILES)
         report = Response()
         if form.is_valid():
             form.mail(request)

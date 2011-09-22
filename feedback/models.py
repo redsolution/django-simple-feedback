@@ -49,6 +49,11 @@ class BogusSMTPConnection(object):
             print "Subject: %s\n\n" % unicode(message.subject)
             print "%s" % message.body
             print messages
+            print "Attachments:"
+            for attachment in message.attachments:
+                for field in attachment: 
+                    print field
+                print "----" 
         return len(messages)
 
 

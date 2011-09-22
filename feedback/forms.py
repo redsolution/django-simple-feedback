@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string, TemplateDoesNotExist
 from feedback.settings import FEEDBACK_FORMS
 from feedback.utils import mail_managers
-
+from feedback.settings import FEEDBACK_ATTACHMENT_SIZE
 
 class BaseFeedbackForm(forms.Form):
 
@@ -15,7 +15,7 @@ class BaseFeedbackForm(forms.Form):
     subject = _('feedback')
     
     serialized_fields = ()
-
+    
     def __init__(self, *args, **kwds):
         '''Overriden: Creates additional form key hidden field'''
         super(BaseFeedbackForm, self).__init__(*args, **kwds)
@@ -30,7 +30,25 @@ class BaseFeedbackForm(forms.Form):
         # prepare context for message
         context = self.get_context_data(request)
         message = render_to_string(self.get_template(), context)
-        mail_managers(self.subject, message, fail_silently=False)
+        mail_managers(self.subject, 
+                      message, 
+                      attachments=request.FILES, 
+                      fail_silently=False)
+        
+    def clean(self):
+        size = FEEDBACK_ATTACHMENT_SIZE*1024*1024
+        cleaned = self.cleaned_data.copy()
+        
+        for field_name in cleaned:
+            field = self[field_name].field
+            data = self[field_name].data
+            
+            if field.__class__.__name__ == 'FileField' and data.size > size:
+                msg = 'Maximum file size is %s MB' % FEEDBACK_ATTACHMENT_SIZE
+                self._errors[field_name] = self.error_class([msg])
+                
+                del self.cleaned_data[field_name]
+        return self.cleaned_data
 
     def get_context_data(self, request):
         context = {'fields': {}}

@@ -72,8 +72,12 @@ create an application with your forms. All feedback forms should be subclasses o
         response = forms.CharField(label=u'Comment', max_length=500,
             widget=forms.Textarea(attrs={'cols':'30', 'rows':'5'}))
         subject = u'Custom order form'
+        
+        serialized_fields = ('name', 'phone', 'address', 'response')
 
 ``subject`` attribute appears in email subject.
+
+``serialized_fields`` attribute contains names of fields, which will be stored in DB. 
 
 Than, you need to put feedback forms in your settings.py:
 

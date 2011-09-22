@@ -99,9 +99,7 @@ Now we can include ``{% show_feedback default %}`` in  template and get override
 What's new
 ``````````
 
-0.2.0 - Models for storing responses in DB created. Responses representation for admin interface added.
-
-0.2.1 - Form attachments added. Attachments are sent by email.
+0.3.0 - Model for storing attachments in database added. Now attachments available in admin interface.
 
 Redsolution CMS classifiers:
 ````````````````````````````

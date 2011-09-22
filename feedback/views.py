@@ -4,21 +4,26 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from feedback.utils import get_feedback_form
-from feedback.models import Response
-from django.core import serializers
+from feedback.models import Response, ResponseAttachments
 
+def dump_data_to_database(request, form):
+    response = Response()
+    response.set_response(form)
+    response.save()
+    
+    for attachment in request.FILES.values():
+        response_attach = ResponseAttachments(response=response)
+        response_attach.file.save(attachment.name, attachment)
+        response_attach.save()
 
 def show_ajax_response(request, key='default'):
     if request.method == 'POST':
         FormClass = get_feedback_form(request.POST.get('form_settings_key', key))
         form = FormClass(request.POST, request.FILES)
-        report = Response()
         if form.is_valid():
             form.mail(request)
+            dump_data_to_database(request, form)
             
-            report.set_response(form)
-            report.save()
-
             return render_to_response('feedback/thankyou.html', {'form': form},
                 context_instance=RequestContext(request))
         else:

@@ -29,6 +29,16 @@
 				{%endifnotequal%}
 			{% endfor %}
 			</tbody>
-		</table>	
+		</table>
+		{% ifnotequal attachments.count 0 %}
+			<h2>{% trans 'Attachments' %}</h2>
+			<ul>
+				{% for attachment in attachments %}
+					<li>
+						<a href="{{ attachment.file.url }}">{{ attachment.file }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+		{% endifnotequal %}
 	</div>
 {% endblock %}

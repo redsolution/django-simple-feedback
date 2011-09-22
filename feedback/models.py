@@ -6,8 +6,18 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
+class ResponseAttachments(models.Model):
+    """Model contains attachments for feedback responses"""
+    
+    file = models.FileField(upload_to='upload/feedback/')
+    response = models.ForeignKey('Response')
+    
+    class Meta:
+        verbose_name = _('response attachment')
+        verbose_name_plural = _('response attachments')
+
 class Response(models.Model):
-    """Class contains responses sent by users"""
+    """Model contains responses sent by users"""
     
     send_time = models.DateTimeField(auto_now_add=True,verbose_name=_('Sending time'))
     response = models.TextField(verbose_name=_('Content response'))

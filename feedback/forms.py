@@ -109,10 +109,9 @@ class BaseFeedbackForm(forms.Form):
             
             counter = 0
             for field in self.serialized_fields:
-#                field_dictionary[self[field].label] = self.cleaned_data[field]
                 field_dictionary[str(counter)] = {
                     'key':self[field].label,
-                    'value':self.cleaned_data[field]}
+                    'value':str(self.cleaned_data[field])}
                 counter += 1
                 
             return field_dictionary

@@ -41,5 +41,5 @@ def mail_managers(subject, message, attachments = None, fail_silently=False, con
                  connection=connection)
     if attachments != None:
         for file in attachments.values():
-            email.attach(file.name, file, file.content_type)
+            email.attach(file.name, file.read(), file.content_type)
     email.send(fail_silently=fail_silently)

@@ -1,8 +1,10 @@
 {% load i18n %}
-<script type="text/javascript" src="/media/feedback/js/feedback.js"></script>
-<form action="{% url ajax_feedback %}" method="post" id="id_feedback_form">
+{{ form.media }}
+<form action="{% url ajax_feedback %}" method="post" id="id_feedback_form_{{ form.get_settings_key }}" class="feedback_form" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
     <table>
         {{ form.as_table }}
-        <tr><td colspan="2" class="center submit "><input type="submit" value="{% trans 'Send' %}" /></td></tr>
+        <tr><td colspan="2" class="center submit ">
+        <input type="submit" onclick="feedback.submit($('#id_feedback_form_{{ form.get_settings_key }}')); return false;" value="{% trans 'Send' %}" />
+        </td></tr>
     </table>
 </form>

@@ -110,14 +110,13 @@ class BaseFeedbackForm(forms.Form):
     def get_dictionary(self):
         
         if (self.is_valid()):
-            field_dictionary = {'subject': self.subject}
+            field_dictionary = {'subject': unicode(self.subject)}
             
             counter = 0
             for field in self.serialized_fields:
-#                field_dictionary[self[field].label] = self.cleaned_data[field]
                 field_dictionary[str(counter)] = {
-                    'key':self[field].label,
-                    'value':self.cleaned_data[field]}
+                    'key':unicode(self[field].label),
+                    'value':unicode(self.cleaned_data[field])}
                 counter += 1
                 
             return field_dictionary

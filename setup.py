@@ -14,7 +14,7 @@ def read(fname):
 
 setup(
     name="redsolutioncms.django-simple-feedback",
-    version="0.1.0",
+    version=__import__('feedback').__version__,
     description=read('DESCRIPTION'),
     license="GPLv3",
     keywords="django feedback form",

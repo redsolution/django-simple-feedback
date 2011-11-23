@@ -2,6 +2,7 @@
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string, TemplateDoesNotExist
 from feedback.settings import FEEDBACK_FORMS
 from feedback.utils import mail_managers
@@ -48,6 +49,10 @@ class BaseFeedbackForm(forms.Form):
                 self._errors[field_name] = self.error_class([msg])
                 
                 del self.cleaned_data[field_name]
+                
+            if field.__class__.__name__ == 'CharField':
+                self.cleaned_data[field_name] = mark_safe(self.cleaned_data[field_name])
+                
         return self.cleaned_data
 
     def get_context_data(self, request):
@@ -109,6 +114,7 @@ class BaseFeedbackForm(forms.Form):
             
             counter = 0
             for field in self.serialized_fields:
+#                field_dictionary[self[field].label] = self.cleaned_data[field]
                 field_dictionary[str(counter)] = {
                     'key':unicode(self[field].label),
                     'value':unicode(self.cleaned_data[field])}

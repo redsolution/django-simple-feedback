@@ -31,7 +31,9 @@ class BaseFeedbackForm(forms.Form):
         # prepare context for message
         context = self.get_context_data(request)
         message = render_to_string(self.get_template(), context)
-        headers = {'Reply-to': getattr(self, 'email', settings.DEFAULT_FROM_EMAIL)}
+        headers = {}
+        if self.cleaned_data.has_key('email'):
+            headers = {'Reply-to': self.cleaned_data.get('email')}
         mail_managers(self.subject, 
                       message, 
                       attachments=request.FILES, 

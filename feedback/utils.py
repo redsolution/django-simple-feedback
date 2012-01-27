@@ -30,7 +30,7 @@ def mail_admins(subject, message, fail_silently):
                  settings.DEFAULT_FROM_EMAIL, [a[1] for a in settings.ADMINS],
                  connection=connection).send(fail_silently=fail_silently)
 
-def mail_managers(subject, message, attachments = None, fail_silently=False, connection=None):
+def mail_managers(subject, message, attachments = None, fail_silently=False, connection=None, headers=None):
     """Sends a message to the managers, as defined by the MANAGERS setting.
     It uses ``DEFAULT_FROM_EMAIL`` setting instead ``SERVR_FROM_EMAIL``
     """
@@ -38,7 +38,8 @@ def mail_managers(subject, message, attachments = None, fail_silently=False, con
         return
     email = EmailMessage(string_concat(settings.EMAIL_SUBJECT_PREFIX, subject), message,
                  settings.DEFAULT_FROM_EMAIL, [a[1] for a in settings.MANAGERS],
-                 connection=connection)
+                 connection=connection,
+                 headers=headers)
     if attachments != None:
         for file in attachments.values():
             email.attach(file.name, file.read(), file.content_type)

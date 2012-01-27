@@ -31,10 +31,12 @@ class BaseFeedbackForm(forms.Form):
         # prepare context for message
         context = self.get_context_data(request)
         message = render_to_string(self.get_template(), context)
+        headers = {'Reply-to': getattr(self, 'email', settings.DEFAULT_FROM_EMAIL)}
         mail_managers(self.subject, 
                       message, 
                       attachments=request.FILES, 
-                      fail_silently=False)
+                      fail_silently=False,
+                      headers=headers)
         
     def clean(self):
         size = FEEDBACK_ATTACHMENT_SIZE*1024*1024

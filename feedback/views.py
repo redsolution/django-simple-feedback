@@ -18,16 +18,20 @@ def dump_data_to_database(request, form):
 
 def show_ajax_response(request, key='default'):
     if request.method == 'POST':
-        FormClass = get_feedback_form(request.POST.get('form_settings_key', key))
+        key = request.POST.get('form_settings_key', key)
+        FormClass = get_feedback_form(key)
         form = FormClass(request.POST, request.FILES)
         if form.is_valid():
             form.mail(request)
             dump_data_to_database(request, form)
-            
-            return render_to_response('feedback/thankyou.html', {'form': form},
-                context_instance=RequestContext(request))
+            return render_to_response([
+                'feedback/%s/thankyou.html' % key,
+                'feedback/thankyou.html',
+                ], {'form': form}, context_instance=RequestContext(request))
         else:
-            return render_to_response('feedback/feedback.html', {'form': form},
-                context_instance=RequestContext(request))
+            return render_to_response([
+                'feedback/%s/feedback.html' % key,
+                'feedback/feedback.html',
+                ], {'form': form}, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/')

@@ -127,7 +127,9 @@ What's new
 
 0.3.2 - Added Reply-to header if email form has ``email`` key
 
-0.3.3 - Fiexd javascript URL in order to work with staticfiles
+0.3.3 - Fixed javascript URL in order to work with staticfiles
+
+0.3.4 - Added customizable templates
 
 Redsolution CMS classifiers:
 ````````````````````````````

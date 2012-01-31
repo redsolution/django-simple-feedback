@@ -101,6 +101,12 @@ What's new
 
 0.3.0 - Model for storing attachments in database added. Now attachments available in admin interface.
 
+0.3.1 - Feedback Emails are 'marked safe'
+
+0.3.2 - Added Reply-to header if email form has ``email`` key
+
+0.3.3 - Fiexd javascript URL in order to work with staticfiles
+
 Redsolution CMS classifiers:
 ````````````````````````````
 

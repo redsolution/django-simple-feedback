@@ -11,7 +11,11 @@ from feedback.settings import FEEDBACK_ATTACHMENT_SIZE
 class BaseFeedbackForm(forms.Form):
 
     class Media:
-        js = ((settings.MEDIA_URL + 'feedback/js/feedback.js'),)
+        if hasattr(settings, 'STATIC_URL'):
+            js = ((settings.STATIC_URL + 'feedback/js/feedback.js'),)
+        else:
+            js = ((settings.MEDIA_URL + 'feedback/js/feedback.js'),)
+
 
     subject = _('feedback')
     

@@ -131,6 +131,8 @@ What's new
 
 0.3.4 - Added customizable templates
 
+0.3.5 - Changed external simplejson module for standard python json
+
 Redsolution CMS classifiers:
 ````````````````````````````
 

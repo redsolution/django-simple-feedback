@@ -34,7 +34,7 @@ class BaseFeedbackForm(forms.Form):
     def mail(self, request):
         # prepare context for message
         context = self.get_context_data(request)
-        message = render_to_string(self.get_template(), context)
+        message = render_to_string(self.get_email_template_names(), context)
         headers = {}
         if self.cleaned_data.has_key('email'):
             headers = {'Reply-to': self.cleaned_data.get('email')}
@@ -74,7 +74,7 @@ class BaseFeedbackForm(forms.Form):
         return context
 
     def get_settings_key(self):
-        '''Finds self class in settings.FEEDBACK_FORMS dictionary
+        '''Finds its own class in settings.FEEDBACK_FORMS dictionary
         and returns appropriate key
         '''
         reverse_forms_dict = dict(
@@ -83,37 +83,38 @@ class BaseFeedbackForm(forms.Form):
         return reverse_forms_dict.get(self.__class__.__name__, 'default')
 
     def get_template_name(self):
-        '''returns template for rendering email message
-        Returns string in format 'feedback/<settings_key>.txt'
-        So, if form registered in FEEDBACK_FORMS with key 'myform',
-        it will be rendered to feedback/myform.txt
-        '''
-        if hasattr(self, 'template'):
-            return self.template
-        else:
-            reverse_forms_dict = dict(
-                (v.rsplit('.', 1)[1], k) for k, v in FEEDBACK_FORMS.iteritems()
-            )
-            form_settings_key = self.get_settings_key()
-            return 'feedback/' + form_settings_key + '.txt'
+        import django
+        import warnings
+        warnings.warn("Deprecated method. Use ``get_email_template_names`` instead.", DeprecationWarning)
+        return self.get_email_template_names()
+
+    def get_email_template_names(self):
+        """
+        Returns template names for Email rendering.
+        """
+        templates = ['feedback/feedback_message.txt',]
+        # Insert before default template
+        templates[0:0] = ['feedback/%s/email.txt' % self.get_settings_key(),]
+        print 'Email templates:', templates
+        return templates
 
     def get_template(self):
-        '''If template, returned by ``get_template_name`` exists,
-        returns ``get_template_name`` result. Otherwise returns default
-        template name used in older versions ``feedback/feedback_message.txt``
-        '''
+        """Deprecated method. Set class property ``template_names``"""
         import django
-        template_name = self.get_template_name()
-        try:
-            if django.VERSION < (1, 2):
-                from django.template.loader import find_template_source
-                find_template_source(template_name)
-            else:
-                from django.template.loader import find_template
-                find_template(template_name)
-            return template_name
-        except TemplateDoesNotExist:
-            return 'feedback/feedback_message.txt'
+        import warnings
+        warnings.warn("Deprecated method. Set ``template_names`` class attribute instead.", DeprecationWarning)
+        if django.VERSION < (1, 2):
+            from django.template.loader import find_template_source as find_template
+        else:
+            from django.template.loader import find_template
+
+        for template in self.get_email_template_names():
+            try:
+                _, filename = find_template(template)
+                return filename
+            except TemplateDoesNotExist:
+                continue
+        return 'feedback/feedback_message.txt'
         
     def get_dictionary(self):
         

@@ -1,6 +1,9 @@
 #-*- coding: utf-8 -*-
 
-import simplejson as json
+try:
+    json
+except NameError:
+	import django.utils.simplejson as json
 
 from django.db import models
 from django.conf import settings

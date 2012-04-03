@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import template
+from django.template import loader, Context
 from django.forms import BooleanField
 from feedback.utils import get_feedback_form
 from django.utils.translation import ugettext_lazy as _
@@ -7,10 +8,15 @@ from django.utils.translation import ugettext_lazy as _
 register = template.Library()
 
 
-@register.inclusion_tag('feedback/feedback.html', takes_context=False)
+@register.simple_tag
 def show_feedback(key='default'):
     form = get_feedback_form(key)()
-    return locals()
+    t = loader.select_template([
+        'feedback/%s/feedback.html' % key,
+        'feedback/feedback.html',
+    ])
+    output = t.render(Context(locals()))
+    return output
 
 
 @register.filter

@@ -133,6 +133,8 @@ What's new
 
 0.3.5 - Changed external simplejson module for standard python json
 
+0.3.6 - Added translations to package
+
 Redsolution CMS classifiers:
 ````````````````````````````
 

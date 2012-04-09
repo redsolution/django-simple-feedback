@@ -95,7 +95,6 @@ class BaseFeedbackForm(forms.Form):
         templates = ['feedback/feedback_message.txt',]
         # Insert before default template
         templates[0:0] = ['feedback/%s/email.txt' % self.get_settings_key(),]
-        print 'Email templates:', templates
         return templates
 
     def get_template(self):

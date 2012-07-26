@@ -32,7 +32,9 @@ Insert template tag in your template
 
     ``{% show_feedback [key] %}``,
 
-where ``key`` is feedback form key. Default key value is ``default``.
+where ``key`` is feedback form key. Default key value is ``default``. For example:
+
+    ``{% show_feedback 'order' %}``
 
 
 Requriments

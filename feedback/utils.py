@@ -30,14 +30,15 @@ def mail_admins(subject, message, fail_silently):
                  settings.DEFAULT_FROM_EMAIL, [a[1] for a in settings.ADMINS],
                  connection=connection).send(fail_silently=fail_silently)
 
-def mail_managers(subject, message, attachments = None, fail_silently=False, connection=None, headers=None):
-    """Sends a message to the managers, as defined by the MANAGERS setting.
+def mail_managers(subject, message, attachments = None, fail_silently=False, connection=None, headers=None, exclude_list=[]):
+    """Sends a message to the managers, as defined by the ``MANAGERS`` setting and ``exclude_list`` parameter.
     It uses ``DEFAULT_FROM_EMAIL`` setting instead ``SERVR_FROM_EMAIL``
     """
     if not settings.MANAGERS:
         return
+    recipients = [a[1] for a in settings.MANAGERS if a[1] not in exclude_list]
     email = EmailMessage(string_concat(settings.EMAIL_SUBJECT_PREFIX, subject), message,
-                 settings.DEFAULT_FROM_EMAIL, [a[1] for a in settings.MANAGERS],
+                 settings.DEFAULT_FROM_EMAIL, recipients,
                  connection=connection,
                  headers=headers)
     if attachments != None:

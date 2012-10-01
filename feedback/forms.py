@@ -31,6 +31,10 @@ class BaseFeedbackForm(forms.Form):
             initial=self.get_settings_key,
         )
 
+    def get_exclude_list(self):
+        settings_key = self.get_settings_key()
+        return FEEDBACK_RECIPIENTS_EXCLUDED[settings_key] if settings_key in FEEDBACK_RECIPIENTS_EXCLUDED else []
+
     def mail(self, request):
         # prepare context for message
         context = self.get_context_data(request)
@@ -42,7 +46,8 @@ class BaseFeedbackForm(forms.Form):
                       message, 
                       attachments=request.FILES, 
                       fail_silently=False,
-                      headers=headers)
+                      headers=headers,
+                      exclude_list=self.get_exclude_list())
         
     def clean(self):
         size = FEEDBACK_ATTACHMENT_SIZE*1024*1024

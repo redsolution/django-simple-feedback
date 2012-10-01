@@ -60,6 +60,11 @@ Settings
 **FEEDBACK_FORMS**
    Registry for custom feedback forms. See Customize section.
 
+**FEEDBACK_RECIPIENTS_EXCLUDED**
+   A dict with feedback forms as keys and lists of exluded manager emails as values.
+   All the keys are defined in **FEEDBACK_FORMS** setting.
+
+
 Customize
 `````````
 

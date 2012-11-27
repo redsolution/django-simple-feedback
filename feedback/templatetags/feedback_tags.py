@@ -1,27 +1,32 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 
+from classytags.arguments import Argument
+from classytags.core import Tag, Options
 from django import template
-from django.forms import BooleanField
-from django.utils.translation import ugettext_lazy as _
-from django.template import loader
+from django.template.loader import render_to_string
 from django.template.context import RequestContext
-
+from django.utils.translation import gettext_lazy as _
 from feedback.utils import get_feedback_form
+from feedback.settings import DEFAULT_FORM_KEY
+from django.forms.fields import BooleanField
 
 register = template.Library()
 
+class ShowFeedback(Tag):
+    name = 'show_feedback'
+    
+    options = Options(Argument('form_key', required=False, resolve=False))
+    
+    def render_tag(self, context, form_key):
+        form_key = form_key if form_key else DEFAULT_FORM_KEY
+        form = get_feedback_form(form_key)()
+        
+        return render_to_string([
+            'feedback/%s/feedback.html' % form_key,
+            'feedback/feedback.html',
+            ], {'form':form}, context_instance=RequestContext(context['request']))
 
-@register.simple_tag(takes_context=True)
-def show_feedback(context, key='default'):
-    form = get_feedback_form(key)()
-    t = loader.select_template([
-        'feedback/%s/feedback.html' % key,
-        'feedback/feedback.html',
-    ])
-    request_context = RequestContext(context['request'], locals())
-    output = t.render(request_context)
-    return output
-
+register.tag(ShowFeedback)
 
 @register.filter
 def get_choice_value(bound_field):

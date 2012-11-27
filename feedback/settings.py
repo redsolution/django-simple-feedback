@@ -1,16 +1,14 @@
+#-*- coding: utf-8 -*-
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
-DEFAULT_FORM = 'feedback.forms.FeedbackForm'
+DEFAULT_FORM_KEY = 'default'
+DEFAULT_FORM = 'nocounterfeit.feedback.forms.DefaultFeedbackForm'
 
-FEEDBACK_FORM = getattr(settings, 'FEEDBACK_FORM', DEFAULT_FORM)
+FEEDBACK_FORMS = getattr(settings, 'FEEDBACK_FORMS', {})
 
-DIRECT_TO_TEMPLATE = getattr(settings, 'DIRECT_TO_TEMPLATE', True)
+if not isinstance(FEEDBACK_FORMS, dict):
+    raise ImproperlyConfigured(u'FEEDBACK_FORMS property must by dictionary') 
 
-# new in 0.1.1
-FEEDBACK_FORMS = getattr(settings, 'FEEDBACK_FORMS', {
-    'default': FEEDBACK_FORM,
-})
-
-FEEDBACK_ATTACHMENT_SIZE = getattr(settings, 'FEEDBACK_ATTACHMENT_SIZE', 2)
-
-FEEDBACK_RECIPIENTS_EXCLUDED = getattr(settings, 'FEEDBACK_RECIPIENTS_EXCLUDED', {})
+if DEFAULT_FORM_KEY not in FEEDBACK_FORMS.keys():
+    FEEDBACK_FORMS[DEFAULT_FORM_KEY] = DEFAULT_FORM

@@ -2,11 +2,22 @@
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.utils.safestring import mark_safe
-from django.template.loader import render_to_string, TemplateDoesNotExist
-from feedback.settings import FEEDBACK_FORMS
-from feedback.utils import mail_managers
-from feedback.settings import FEEDBACK_ATTACHMENT_SIZE, FEEDBACK_RECIPIENTS_EXCLUDED
+from django.template.loader import render_to_string
+from settings import DEFAULT_FORM_KEY, FEEDBACK_FORMS
+from django.core.mail import send_mail
+from django.core.mail.message import EmailMessage
+from django.forms import models
+from models import MailingList, forms as form_list
+
+class MailingListForm(models.ModelForm):
+    class Meta:
+        model = MailingList
+    
+    def __init__(self, *args, **kwargs):
+        super(MailingListForm, self).__init__(*args, **kwargs)
+        self.fields['form'].help_text = _('For each feedback form you can specify only one mailing list!')
+        self.fields['form'].choices = form_list
+
 
 class BaseFeedbackForm(forms.Form):
 
@@ -19,8 +30,6 @@ class BaseFeedbackForm(forms.Form):
 
     subject = _('feedback')
     
-    serialized_fields = ()
-    
     def __init__(self, *args, **kwds):
         '''Overriden: Creates additional form key hidden field'''
         super(BaseFeedbackForm, self).__init__(*args, **kwds)
@@ -31,49 +40,32 @@ class BaseFeedbackForm(forms.Form):
             initial=self.get_settings_key,
         )
 
-    def get_exclude_list(self):
-        settings_key = self.get_settings_key()
-        return FEEDBACK_RECIPIENTS_EXCLUDED[settings_key] if settings_key in FEEDBACK_RECIPIENTS_EXCLUDED else []
-
     def mail(self, request):
-        # prepare context for message
+        from models import MailingList
+
+        key = self.get_settings_key()
+        try:
+            m = MailingList.objects.get(form__exact=key)
+            recipients = m.emails.values_list('email', flat=True)
+            sender = m.default_from if m.default_from else settings.DEFAULT_FROM_EMAIL
+        except:
+            recipients = [mail[1] for mail in settings.MANAGERS]
+            sender = settings.DEFAULT_FROM_EMAIL
+        
         context = self.get_context_data(request)
         message = render_to_string(self.get_email_template_names(), context)
         headers = {}
         if self.cleaned_data.has_key('email'):
             headers = {'Reply-to': self.cleaned_data.get('email')}
-        mail_managers(self.subject, 
-                      message, 
-                      attachments=request.FILES, 
-                      fail_silently=False,
-                      headers=headers,
-                      exclude_list=self.get_exclude_list())
         
-    def clean(self):
-        size = FEEDBACK_ATTACHMENT_SIZE*1024*1024
-        cleaned = self.cleaned_data.copy()
+        msg = EmailMessage(self.subject, message, sender, recipients, headers=headers)    
+        msg.send()
         
-        for field_name in cleaned:
-            field = self[field_name].field
-            data = self[field_name].data
-            
-            if field.__class__.__name__ == 'FileField' and data.size > size:
-                msg = 'Maximum file size is %s MB' % FEEDBACK_ATTACHMENT_SIZE
-                self._errors[field_name] = self.error_class([msg])
-                
-                del self.cleaned_data[field_name]
-                
-            if field.__class__.__name__ == 'CharField':
-                self.cleaned_data[field_name] = mark_safe(self.cleaned_data[field_name])
-                
-        return self.cleaned_data
-
+        
     def get_context_data(self, request):
         context = {'fields': {}}
         for name, field in self.fields.iteritems():
             context['fields'][name] = self.cleaned_data.get(name, None)
-            # leaved for compatibility. Will be removed in feedback v 1.2
-            context[name] = self.cleaned_data.get(name, None)
         context['form'] = self
         context['request'] = request
         return context
@@ -85,13 +77,7 @@ class BaseFeedbackForm(forms.Form):
         reverse_forms_dict = dict(
             (v.rsplit('.', 1)[1], k) for k, v in FEEDBACK_FORMS.iteritems()
         )
-        return reverse_forms_dict.get(self.__class__.__name__, 'default')
-
-    def get_template_name(self):
-        import django
-        import warnings
-        warnings.warn("Deprecated method. Use ``get_email_template_names`` instead.", DeprecationWarning)
-        return self.get_email_template_names()
+        return reverse_forms_dict.get(self.__class__.__name__, DEFAULT_FORM_KEY)
 
     def get_email_template_names(self):
         """
@@ -101,45 +87,10 @@ class BaseFeedbackForm(forms.Form):
         # Insert before default template
         templates[0:0] = ['feedback/%s/email.txt' % self.get_settings_key(),]
         return templates
-
-    def get_template(self):
-        """Deprecated method. Set class property ``template_names``"""
-        import django
-        import warnings
-        warnings.warn("Deprecated method. Set ``template_names`` class attribute instead.", DeprecationWarning)
-        if django.VERSION < (1, 2):
-            from django.template.loader import find_template_source as find_template
-        else:
-            from django.template.loader import find_template
-
-        for template in self.get_email_template_names():
-            try:
-                _, filename = find_template(template)
-                return filename
-            except TemplateDoesNotExist:
-                continue
-        return 'feedback/feedback_message.txt'
         
-    def get_dictionary(self):
-        
-        if (self.is_valid()):
-            field_dictionary = {'subject': unicode(self.subject)}
-            
-            counter = 0
-            for field in self.serialized_fields:
-                field_dictionary[str(counter)] = {
-                    'key':unicode(self[field].label),
-                    'value':unicode(self.cleaned_data[field])}
-                counter += 1
-                
-            return field_dictionary
-
-
-class FeedbackForm(BaseFeedbackForm):
+class DefaultFeedbackForm(BaseFeedbackForm):
     email = forms.EmailField(label=_('Email'), max_length=200)
     topic = forms.CharField(label=_('Topic'), max_length=200)
     response = forms.CharField(label=_('Message text'), max_length=500,
         widget=forms.Textarea(attrs={'cols':'30', 'rows':'5'}))
     subject = _('Feedback form')
-    
-    serialized_fields = ('email', 'topic', 'response',)

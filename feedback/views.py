@@ -1,29 +1,17 @@
-# -*- coding: utf-8 -*-
-from django.core.urlresolvers import reverse
+#-*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from feedback.utils import get_feedback_form
-from feedback.models import Response, ResponseAttachments
+from settings import DEFAULT_FORM_KEY
+from utils import get_feedback_form
 
-def dump_data_to_database(request, form):
-    response = Response()
-    response.set_response(form)
-    response.save()
-    
-    for attachment in request.FILES.values():
-        response_attach = ResponseAttachments(response=response)
-        response_attach.file.save(attachment.name, attachment)
-        response_attach.save()
-
-def show_ajax_response(request, key='default'):
+def show_ajax_response(request):
     if request.method == 'POST':
-        key = request.POST.get('form_settings_key', key)
+        key = request.POST.get('form_settings_key', DEFAULT_FORM_KEY)
         FormClass = get_feedback_form(key)
-        form = FormClass(request.POST, request.FILES)
+        form = FormClass(request.POST)
         if form.is_valid():
             form.mail(request)
-            dump_data_to_database(request, form)
             return render_to_response([
                 'feedback/%s/thankyou.html' % key,
                 'feedback/thankyou.html',

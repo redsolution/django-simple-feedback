@@ -1,77 +1,33 @@
 #-*- coding: utf-8 -*-
-
-try:
-    json
-except NameError:
-	import django.utils.simplejson as json
-
 from django.db import models
-from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from settings import FEEDBACK_FORMS
 
-class ResponseAttachments(models.Model):
-    """Model contains attachments for feedback responses"""
-    
-    file = models.FileField(upload_to='upload/feedback/')
-    response = models.ForeignKey('Response')
-    
+forms = [(key, ' '.join(key.split('_')).capitalize()) for key in FEEDBACK_FORMS.keys()]
+
+
+class FeedbackEmail(models.Model):
     class Meta:
-        verbose_name = _('response attachment')
-        verbose_name_plural = _('response attachments')
-
-class Response(models.Model):
-    """Model contains responses sent by users"""
+        verbose_name = _('Email address')
+        verbose_name_plural = _('Email addresses')
     
-    send_time = models.DateTimeField(auto_now_add=True,verbose_name=_('Sending time'))
-    response = models.TextField(verbose_name=_('Content response'))
+    name = models.CharField(verbose_name=_('Receiver\'s name'),max_length=200,blank=True,null=True)
+    email = models.EmailField(verbose_name=_('Email'), max_length=200)
     
-    def set_response(self, serialize_form):
-        setattr(self, 'response', 
-                json.dumps(serialize_form.get_dictionary()))
-        
-    def get_response(self):
-        return json.loads(getattr(self, 'response'))
     
     def __unicode__(self):
-        sended = self.send_time.strftime('%d.%m.%Y %H:%M')
-        return 'Response for %(sended)s' % {'sended': sended}
-    
+        return '%s:%s' % (self.name,self.email,) if self.name else self.email
+
+class MailingList(models.Model):
     class Meta:
-        verbose_name = _('response')
-        verbose_name_plural = _('responses')
+        verbose_name = _('Mailing list')
+        verbose_name_plural = _('Mailing lists')
     
-# probably it isn't a model, but in __init__.py this code breaks setup.py
-
-class BogusSMTPConnection(object):
-    """Instead of sending emails, print them to the console."""
-
-    def __init__(self, *args, **kwargs):
-        print "Initialized bogus SMTP connection"
-
-    def open(self):
-        print "Open bogus SMTP connection"
-
-    def close(self):
-        print "Clone bogus SMTP connection"
-
-    def send_messages(self, messages):
-        print "Sending through bogus SMTP connection:"
-        for message in messages:
-            print "From: %s" % message.from_email
-            print "To: %s" % (", ".join(message.to))
-            print "Subject: %s\n\n" % unicode(message.subject)
-            print "%s" % message.body
-            print messages
-            print "Attachments:"
-            for attachment in message.attachments:
-                for field in attachment: 
-                    print field
-                print "----" 
-        return len(messages)
-
-
-if settings.DEBUG:
-    from django.core import mail
-    mail.SMTPConnection = BogusSMTPConnection
-
-
+    title = models.CharField(verbose_name=_('List title'),max_length=200,null=True)
+    emails = models.ManyToManyField(FeedbackEmail, verbose_name=_('List of addresses'), 
+        related_name='forms',blank=True)
+    form = models.CharField(verbose_name=_('Feedback form'),max_length=100,unique=True,choices=forms)
+    default_from = models.EmailField(verbose_name=_('Default sender email'),max_length=200,blank=True,null=True)
+    
+    def __unicode__(self):
+        return self.title 

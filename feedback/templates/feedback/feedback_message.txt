@@ -1,6 +1,11 @@
-{% load i18n feedback_tags %}{{ subject }}
+{% load i18n feedback_tags %}
+{{ subject }}
 ==============
 
-{% for field in form %}{% ifnotequal field.name 'form_settings_key' %}{{ field.label }}: {{ field|get_choice_value }}
-{% endifnotequal %}{% endfor %}
+{% for field in form %}
+{% ifnotequal field.name 'form_settings_key' %}
+{{ field.label }}: {{ field|get_choice_value }}
+{% endifnotequal %}
+{% endfor %}
+
 {% trans "Form type" %}: {{ form.subject }}

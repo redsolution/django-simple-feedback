@@ -1,21 +1,16 @@
-# -*- coding: utf-8 -*-
-
-import os
-
+#-*- coding: utf-8 -*-
 from django.contrib import admin
-from feedback.models import Response, ResponseAttachments
+from django.contrib.admin.options import ModelAdmin
+from models import MailingList, FeedbackEmail
+from forms import MailingListForm
 
-class ResponseAdmin(admin.ModelAdmin):
-    list_display = ('send_time',)
-    
-    change_form_template = 'admin/change_form_template.html'
-    change_list_template = 'admin/change_list_template.html'
-    
-    def change_view(self, request, object_id, extra_context=None):
-        extra_context = {
-            'form': Response.objects.get(id=object_id).get_response(),
-            'attachments': ResponseAttachments.objects.filter(response=object_id)}
-        return super(ResponseAdmin, self).change_view(request, object_id, extra_context)
+class FeedbackEmailAdmin(ModelAdmin):
+    model = FeedbackEmail
 
-admin.site.register(Response, ResponseAdmin)
+class MailingListAdmin(ModelAdmin):
+    form = MailingListForm
+    filter_horizontal = ('emails',)
+
     
+admin.site.register(MailingList, MailingListAdmin)
+admin.site.register(FeedbackEmail, FeedbackEmailAdmin)

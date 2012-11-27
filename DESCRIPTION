@@ -1,2 +1,2 @@
-Simple application, that provides customizable email form tempalte tag.
-You can specify form fields and optionally enable dedicated view to render feedback page. See 0.3.9.0 for Django 1.2.5 and older.
+Simple application, that provides customizable email form template tag.
+You can specify form fields and optionally enable dedicated view to render feedback page.

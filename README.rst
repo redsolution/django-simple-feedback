@@ -1,6 +1,6 @@
-====================================
-Simple Django feedback application
-====================================
+============================
+Django feedback application
+============================
 
 Quick start
 ```````````
@@ -32,9 +32,7 @@ Insert template tag in your template
 
     ``{% show_feedback [key] %}``,
 
-where ``key`` is feedback form key. Default key value is ``default``. For example:
-
-    ``{% show_feedback 'order' %}``
+where ``key`` is feedback form key. Default key value is ``default``.
 
 
 Requriments
@@ -49,22 +47,8 @@ in your page. You can install it from Google hosting:
 Settings
 ````````
 
-**DIRECT_TO_TEMPLATE**
-  When ``True``, application will show **default** feedback form 
-  with template ``feedback/feedback_page.html`` where feedback urls were included. 
-  If you set this setting to ``False`` you should display feedback form manually, 
-  by including ``{% show_feedback [key] %}`` tag into template. 
-
-**FEEDBACK_FILE_SIZE**
-   This parameter sets attachments maximum file size in megabytes.
-   Default value is 2 MB.
-
 **FEEDBACK_FORMS**
    Registry for custom feedback forms. See Customize section.
-
-**FEEDBACK_RECIPIENTS_EXCLUDED**
-   A dict with feedback forms as keys and lists of exluded manager emails as values.
-   All the keys are defined in **FEEDBACK_FORMS** setting.
 
 
 Customize
@@ -89,12 +73,8 @@ create an application with your forms. All feedback forms should be subclasses o
         response = forms.CharField(label=u'Comment', max_length=500,
             widget=forms.Textarea(attrs={'cols':'30', 'rows':'5'}))
         subject = u'Custom order form'
-        
-        serialized_fields = ('name', 'phone', 'address', 'response')
 
 ``subject`` attribute appears in email subject.
-
-``serialized_fields`` attribute contains names of fields, those will be stored in DB. 
 
 Than, you need to put feedback forms in your settings.py:
 
@@ -123,28 +103,13 @@ You can create custom templates if you have custom form class. Application searc
   for rendering email text
 
 
+Mailing lists
+`````````````
+
+You can specify a mailing list for each feedback form with admin interface. By default messages from all the feedback forms are sent to the emails specified by MANAGERS setting
 
 
 What's new
 ``````````
 
-0.3.0 - Model for storing attachments in database added. Now attachments available in admin interface.
-
-0.3.1 - Feedback Emails are 'marked safe'
-
-0.3.2 - Added Reply-to header if email form has ``email`` key
-
-0.3.3 - Fixed javascript URL in order to work with staticfiles
-
-0.3.4 - Added customizable templates
-
-0.3.5 - Changed external simplejson module for standard python json
-
-0.3.6 - Added translations to package
-
-Redsolution CMS classifiers:
-````````````````````````````
-
-`Content plugins`_
-
-.. _`Content plugins`: http://www.redsolutioncms.org/classifiers/content
+0.4.0 - New version. Responses in DB was deleted and mailing lists was added. 

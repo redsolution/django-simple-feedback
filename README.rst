@@ -50,6 +50,9 @@ Settings
 **FEEDBACK_FORMS**
    Registry for custom feedback forms. See Customize section.
 
+**FEEDBACK_FORMS_NAMES**
+   Registry for feedback form names. See Customize section.
+
 
 Customize
 `````````
@@ -76,7 +79,7 @@ create an application with your forms. All feedback forms should be subclasses o
 
 ``subject`` attribute appears in email subject.
 
-Than, you need to put feedback forms in your settings.py:
+Then you need to put feedback forms in your settings.py:
 
 ``FEEDBACK_FORMS`` - dictionary object, describes feedback forms on your
 site. Every key-value pair stands for feedback form object. For example: ::
@@ -84,6 +87,16 @@ site. Every key-value pair stands for feedback form object. For example: ::
     FEEDBACK_FORMS = {
         'default': 'feedback.forms.FeedbackForm',
         'order': 'mysite.custom_feedback.forms.OrderForm',
+    }
+
+
+You can also specify ``FEEDBACK_FORMS_NAMES`` option:
+
+``FEEDBACK_FORMS_NAMES`` - dictionary object, that defines the way a feedback form is displayed in Mailing list admin interface.
+Every key-value pair stands for feedback form object. For example: ::
+
+    FEEDBACK_FORMS_NAMES = {
+        'order': 'Online order form',
     }
 
 

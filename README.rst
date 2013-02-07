@@ -125,4 +125,5 @@ You can specify a mailing list for each feedback form with admin interface. By d
 What's new
 ``````````
 
-0.4.0 - New version. Responses in DB was deleted and mailing lists was added. 
+0.4.1 - Option to define humanized form names was added.
+0.4.0 - New version. Responses in DB was deleted and mailing lists was added.

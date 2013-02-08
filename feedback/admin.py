@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-
 import os
-
 from django.contrib import admin
 from feedback.models import Response, ResponseAttachments
+
 
 class ResponseAdmin(admin.ModelAdmin):
     list_display = ('send_time',)

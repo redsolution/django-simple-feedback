@@ -8,6 +8,7 @@ from feedback.settings import FEEDBACK_FORMS
 from feedback.utils import mail_managers
 from feedback.settings import FEEDBACK_ATTACHMENT_SIZE, FEEDBACK_RECIPIENTS_EXCLUDED
 
+
 class BaseFeedbackForm(forms.Form):
 
     class Media:

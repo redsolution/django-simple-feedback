@@ -1,5 +1,4 @@
 #-*- coding: utf-8 -*-
-
 try:
     json
 except NameError:
@@ -8,6 +7,7 @@ except NameError:
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+
 
 class ResponseAttachments(models.Model):
     """Model contains attachments for feedback responses"""
@@ -18,6 +18,7 @@ class ResponseAttachments(models.Model):
     class Meta:
         verbose_name = _('response attachment')
         verbose_name_plural = _('response attachments')
+
 
 class Response(models.Model):
     """Model contains responses sent by users"""
@@ -41,6 +42,7 @@ class Response(models.Model):
         verbose_name_plural = _('responses')
     
 # probably it isn't a model, but in __init__.py this code breaks setup.py
+
 
 class BogusSMTPConnection(object):
     """Instead of sending emails, print them to the console."""

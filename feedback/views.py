@@ -6,6 +6,7 @@ from django.template import RequestContext
 from feedback.utils import get_feedback_form
 from feedback.models import Response, ResponseAttachments
 
+
 def dump_data_to_database(request, form):
     response = Response()
     response.set_response(form)
@@ -15,6 +16,7 @@ def dump_data_to_database(request, form):
         response_attach = ResponseAttachments(response=response)
         response_attach.file.save(attachment.name, attachment)
         response_attach.save()
+
 
 def show_ajax_response(request, key='default'):
     if request.method == 'POST':

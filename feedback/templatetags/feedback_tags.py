@@ -1,5 +1,4 @@
 #-*- coding: utf-8 -*-
-
 from classytags.arguments import Argument
 from classytags.core import Tag, Options
 from django import template
@@ -10,7 +9,9 @@ from feedback.utils import get_feedback_form
 from feedback.settings import DEFAULT_FORM_KEY
 from django.forms.fields import BooleanField
 
+
 register = template.Library()
+
 
 class ShowFeedback(Tag):
     name = 'show_feedback'
@@ -27,6 +28,7 @@ class ShowFeedback(Tag):
             ], {'form':form}, context_instance=RequestContext(context['request']))
 
 register.tag(ShowFeedback)
+
 
 @register.filter
 def get_choice_value(bound_field):

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-
 from django.conf.urls.defaults import *
-
 from feedback.settings import DIRECT_TO_TEMPLATE
 
 

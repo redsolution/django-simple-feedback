@@ -123,25 +123,6 @@ You can create custom templates if you have custom form class. Application searc
   for rendering email text
 
 
-
-
-What's new
-``````````
-
-0.3.0 - Model for storing attachments in database added. Now attachments available in admin interface.
-
-0.3.1 - Feedback Emails are 'marked safe'
-
-0.3.2 - Added Reply-to header if email form has ``email`` key
-
-0.3.3 - Fixed javascript URL in order to work with staticfiles
-
-0.3.4 - Added customizable templates
-
-0.3.5 - Changed external simplejson module for standard python json
-
-0.3.6 - Added translations to package
-
 Redsolution CMS classifiers:
 ````````````````````````````
 

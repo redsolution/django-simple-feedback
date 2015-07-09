@@ -53,6 +53,9 @@ Settings
 **FEEDBACK_FORMS_NAMES**
    Registry for feedback form names. See Customize section.
 
+**FEEDBACK_PREFIX_KEY_FIELDS**
+   Use True if need unique id html element for form fields.
+
 
 Customize
 `````````

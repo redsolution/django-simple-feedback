@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from django.template.context import RequestContext
 from django.utils.translation import gettext_lazy as _
 from feedback.utils import get_feedback_form
-from feedback.settings import DEFAULT_FORM_KEY
+from feedback.settings import DEFAULT_FORM_KEY, PREFIX_KEY_FIELDS
 from django.forms.fields import BooleanField
 
 register = template.Library()
@@ -20,7 +20,9 @@ class ShowFeedback(Tag):
     def render_tag(self, context, form_key):
         form_key = form_key if form_key else DEFAULT_FORM_KEY
         form = get_feedback_form(form_key)()
-        
+        if PREFIX_KEY_FIELDS:
+            form.prefix = form_key
+
         return render_to_string([
             'feedback/%s/feedback.html' % form_key,
             'feedback/feedback.html',

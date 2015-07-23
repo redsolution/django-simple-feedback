@@ -54,7 +54,7 @@ Settings
    Registry for feedback form names. See Customize section.
 
 **FEEDBACK_PREFIX_KEY_FIELDS**
-   Use True if need unique id html element for form fields.
+   Use True if need unique id html element for form fields. Default: False.
 
 
 Customize
@@ -128,5 +128,9 @@ You can specify a mailing list for each feedback form with admin interface. By d
 What's new
 ``````````
 
+0.4.2 - Added prefix fields settings and changing system of receipt form class.
+**WARNING!** If you update version and use custom templates, change in form action on ''{% url ajax_feedback key=form.get_settings_key %}'' .
+
 0.4.1 - Option to define humanized form names was added.
+
 0.4.0 - New version. Responses in DB was deleted and mailing lists was added.

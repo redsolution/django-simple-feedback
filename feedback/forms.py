@@ -29,16 +29,7 @@ class BaseFeedbackForm(forms.Form):
 
 
     subject = _('feedback')
-    
-    def __init__(self, *args, **kwds):
-        '''Overriden: Creates additional form key hidden field'''
-        super(BaseFeedbackForm, self).__init__(*args, **kwds)
-        self.fields['form_settings_key'] = forms.CharField(
-            label=_('Form type'),
-            widget=forms.HiddenInput(),
-            max_length=100,
-            initial=self.get_settings_key,
-        )
+
 
     def mail(self, request):
         from models import MailingList

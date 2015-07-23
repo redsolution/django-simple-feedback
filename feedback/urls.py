@@ -2,5 +2,5 @@
 from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('feedback.views',
-    url(r'ajax/$', 'show_ajax_response', name='ajax_feedback'),
+    url(r'ajax/(?P<key>\w+)/$', 'show_ajax_response', name='ajax_feedback'),
 )

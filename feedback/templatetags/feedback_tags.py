@@ -40,7 +40,7 @@ def get_choice_value(bound_field):
             if bound_field.data:
                 if choice[0] == int(bound_field.data):
                     value = choice[1]
-                    break;
+                    break
             else:
                 value = _('None')
     if value is None:

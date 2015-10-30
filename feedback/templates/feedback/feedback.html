@@ -1,6 +1,8 @@
 {% load i18n %}
 {{ form.media }}
-<form action="{% url ajax_feedback key=form.get_settings_key %}" method="post" id="id_feedback_form_{{ form.get_settings_key }}" class="feedback_form" >
+<form action="{% url 'ajax_feedback' key=form.get_settings_key %}"
+		method="post" id="id_feedback_form_{{ form.get_settings_key }}"
+		class="feedback_form" >
     <table>
         {{ form.as_table }}
         <tr><td colspan="2" class="center submit ">

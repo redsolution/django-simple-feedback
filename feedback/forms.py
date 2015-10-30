@@ -4,7 +4,6 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string
 from settings import DEFAULT_FORM_KEY, FEEDBACK_FORMS
-from django.core.mail import send_mail
 from django.core.mail.message import EmailMessage
 from django.forms import models
 from models import MailingList, forms as form_list
@@ -12,6 +11,7 @@ from models import MailingList, forms as form_list
 class MailingListForm(models.ModelForm):
     class Meta:
         model = MailingList
+        fields = '__all__'
     
     def __init__(self, *args, **kwargs):
         super(MailingListForm, self).__init__(*args, **kwargs)

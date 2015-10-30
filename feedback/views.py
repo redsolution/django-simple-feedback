@@ -2,7 +2,7 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from settings import DEFAULT_FORM_KEY, PREFIX_KEY_FIELDS
+from settings import PREFIX_KEY_FIELDS
 from utils import get_feedback_form
 
 def show_ajax_response(request, key):

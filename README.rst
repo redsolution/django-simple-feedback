@@ -127,6 +127,7 @@ You can specify a mailing list for each feedback form with admin interface. By d
 
 What's new
 ``````````
+0.5.0 - Compatibility with django 1.7 > 1.8. Update **ru** translation.
 
 0.4.2 - Added prefix fields settings and changing system of receipt form class.
 **WARNING!** If you update version and use custom templates, change in form action on ''{% url ajax_feedback key=form.get_settings_key %}'' .

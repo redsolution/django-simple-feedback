@@ -3,12 +3,27 @@ from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string
-from settings import DEFAULT_FORM_KEY, FEEDBACK_FORMS
 from django.core.mail.message import EmailMessage
-from django.forms import models
-from models import MailingList, forms as form_list
+from django.forms import models, ChoiceField
+from settings import DEFAULT_FORM_KEY, FEEDBACK_FORMS,  FEEDBACK_FORMS_NAMES
+from models import MailingList
+
+
+def make_form_choices():
+    '''Creating choices,
+    based on FEEDBACK_FORMS for mailing list admin form'''
+    result = []
+    for key in FEEDBACK_FORMS.keys():
+        form_name = ' '.join(key.split('_')).capitalize()
+        if key in FEEDBACK_FORMS_NAMES:
+            form_name = FEEDBACK_FORMS_NAMES[key]
+        result.append((key, form_name))
+    return result
 
 class MailingListForm(models.ModelForm):
+
+    form = ChoiceField(label=_('form'), choices=make_form_choices())
+
     class Meta:
         model = MailingList
         fields = '__all__'
@@ -16,8 +31,6 @@ class MailingListForm(models.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MailingListForm, self).__init__(*args, **kwargs)
         self.fields['form'].help_text = _('For each feedback form you can specify only one mailing list!')
-        self.fields['form'].choices = form_list
-
 
 class BaseFeedbackForm(forms.Form):
 
@@ -27,9 +40,7 @@ class BaseFeedbackForm(forms.Form):
         else:
             js = ((settings.MEDIA_URL + 'feedback/js/feedback.js'),)
 
-
     subject = _('feedback')
-
 
     def mail(self, request):
         from models import MailingList
@@ -51,7 +62,6 @@ class BaseFeedbackForm(forms.Form):
         
         msg = EmailMessage(self.subject, message, sender, recipients, headers=headers)    
         msg.send()
-        
         
     def get_context_data(self, request):
         context = {'fields': {}}

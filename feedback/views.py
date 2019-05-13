@@ -5,6 +5,7 @@ from django.template import RequestContext
 from settings import DEFAULT_FORM_KEY, PREFIX_KEY_FIELDS
 from utils import get_feedback_form
 
+
 def show_ajax_response(request, key):
     if request.method == 'POST':
         FormClass = get_feedback_form(key)
@@ -20,6 +21,11 @@ def show_ajax_response(request, key):
                 'feedback/thankyou.html',
                 ], {'form': form}, context_instance=RequestContext(request))
         else:
+            if 'message_' in form.errors:
+                return render_to_response([
+                    'feedback/%s/spam.html' % key,
+                    'feedback/spam.html',
+                ], {'form': form}, context_instance=RequestContext(request))
             return render_to_response([
                 'feedback/%s/feedback.html' % key,
                 'feedback/feedback.html',

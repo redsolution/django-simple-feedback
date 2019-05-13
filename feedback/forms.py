@@ -8,6 +8,8 @@ from django.core.mail import send_mail
 from django.core.mail.message import EmailMessage
 from django.forms import models
 from models import MailingList, forms as form_list
+from .settings import FEEDBACK_ANTISPAM
+
 
 class MailingListForm(models.ModelForm):
     class Meta:
@@ -27,9 +29,21 @@ class BaseFeedbackForm(forms.Form):
         else:
             js = ((settings.MEDIA_URL + 'feedback/js/feedback.js'),)
 
+    # Скрытое поле для защиты от спам-ботов
+    message_ = forms.CharField(label=u'Сообщение', required=False, widget=forms.Textarea(attrs={'class': 'important-field'}))
 
-    subject = _('feedback')
+    def clean(self):
+        if FEEDBACK_ANTISPAM['CHECKING_HIDDEN_FIELD']:
+            if len(self.cleaned_data.get('message_', '')):
+                self._errors['message_'] = 'unhuman message found'
+        if FEEDBACK_ANTISPAM['BLOCKING_EXTERNAL_LINKS']:
+            for key, value in self.cleaned_data.iteritems():
+                if 'href=' in value:
+                    self._errors['message_'] = 'external links found'
 
+        return self.cleaned_data
+
+    subject = _('message_')
 
     def mail(self, request):
         from models import MailingList
@@ -51,8 +65,8 @@ class BaseFeedbackForm(forms.Form):
         
         msg = EmailMessage(self.subject, message, sender, recipients, headers=headers)    
         msg.send()
-        
-        
+        self._errors['end_date'] = self.error_class([msg])
+
     def get_context_data(self, request):
         context = {'fields': {}}
         for name, field in self.fields.iteritems():

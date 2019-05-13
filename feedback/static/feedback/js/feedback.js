@@ -17,3 +17,9 @@ feedback = {
         return false;
     }
 };
+
+var important_fields = document.getElementsByClassName('important-field');
+
+for(var i = 0; i < important_fields.length; i++){
+    important_fields[i].style.display = 'none';
+}

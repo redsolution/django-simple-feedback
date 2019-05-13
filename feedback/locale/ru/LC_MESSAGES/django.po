@@ -169,3 +169,11 @@ msgstr "Нет"
 
 #~ msgid "Attachments"
 #~ msgstr "Приложения"
+
+#: templates/feedback/spam.html:2
+msgid "Your feedback contain suspicious content!"
+msgstr "Сообщение содержит подозрительный контент"
+
+#: templates/feedback/spam.html:3
+msgid "Message has been rejected"
+msgstr "Сообщение отклонено"

@@ -7,6 +7,7 @@ from django.core.mail.message import EmailMessage
 from django.forms import models, ChoiceField
 from settings import DEFAULT_FORM_KEY, FEEDBACK_FORMS,  FEEDBACK_FORMS_NAMES
 from models import MailingList
+from .settings import FEEDBACK_ANTISPAM
 
 
 def make_form_choices():
@@ -20,6 +21,7 @@ def make_form_choices():
         result.append((key, form_name))
     return result
 
+
 class MailingListForm(models.ModelForm):
 
     form = ChoiceField(label=_('form'), choices=make_form_choices())
@@ -32,6 +34,7 @@ class MailingListForm(models.ModelForm):
         super(MailingListForm, self).__init__(*args, **kwargs)
         self.fields['form'].help_text = _('For each feedback form you can specify only one mailing list!')
 
+
 class BaseFeedbackForm(forms.Form):
 
     class Media:
@@ -41,6 +44,20 @@ class BaseFeedbackForm(forms.Form):
             js = ((settings.MEDIA_URL + 'feedback/js/feedback.js'),)
 
     subject = _('feedback')
+    # Скрытое поле для защиты от спам-ботов
+    message_ = forms.CharField(label=u'Сообщение', required=False,
+                               widget=forms.Textarea(attrs={'class': 'important-field'}))
+
+    def clean(self):
+        if FEEDBACK_ANTISPAM['CHECKING_HIDDEN_FIELD']:
+            if len(self.cleaned_data.get('message_', '')):
+                self._errors['message_'] = 'unhuman message found'
+        if FEEDBACK_ANTISPAM['BLOCKING_EXTERNAL_LINKS']:
+            for key, value in self.cleaned_data.iteritems():
+                if 'href=' in value:
+                    self._errors['message_'] = 'external links found'
+
+        return self.cleaned_data
 
     def mail(self, request):
         from models import MailingList

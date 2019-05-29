@@ -38,7 +38,7 @@ class BaseFeedbackForm(forms.Form):
                 self._errors['message_'] = 'unhuman message found'
         if FEEDBACK_ANTISPAM['BLOCKING_EXTERNAL_LINKS']:
             for key, value in self.cleaned_data.iteritems():
-                if 'href=' in value:
+                if isinstance(value, unicode) and 'href=' in value:
                     self._errors['message_'] = 'external links found'
 
         return self.cleaned_data

@@ -1,8 +1,8 @@
 {% load i18n %}
-{{ form.media }}
 <form action="{% url 'ajax_feedback' key=form.get_settings_key %}"
 		method="post" id="id_feedback_form_{{ form.get_settings_key }}"
 		class="feedback_form" >
+    {{ form.media }}
     <table>
         {{ form.as_table }}
         <tr><td colspan="2" class="center submit ">
@@ -11,11 +11,3 @@
         </td></tr>
     </table>
 </form>
-<script type="text/javascript">
-	$(function(){
-		$('#id_feedback_form_{{ form.get_settings_key }}').submit(function(){
-			feedback.submit($('#id_feedback_form_{{ form.get_settings_key }}'));
-			return false;
-		});
-	});
-</script>

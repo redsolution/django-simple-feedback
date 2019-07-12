@@ -45,8 +45,10 @@ class BaseFeedbackForm(forms.Form):
 
     subject = _('feedback')
     # Скрытое поле для защиты от спам-ботов
-    message_ = forms.CharField(label=u'Сообщение', required=False,
-                               widget=forms.Textarea(attrs={'class': 'important-field'}))
+    message_ = forms.CharField(
+        label=u'Сообщение', required=False,
+        widget=forms.Textarea(attrs={'style': 'display: none;'})
+    )
 
     def clean(self):
         if FEEDBACK_ANTISPAM['CHECKING_HIDDEN_FIELD']:

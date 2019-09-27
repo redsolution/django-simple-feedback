@@ -18,7 +18,7 @@ Open source feedback management system based on the Django framework. You can ea
 
 1. Install package
 
-    `` pip install git+git://github.com/oldroute/django-simple-feedback.git@antispam-1.11``
+    `` pip install git+git://github.com/oldroute/django-simple-feedback.git@1.11``
 
 2. Create (or use) your own application for your feedback forms, for example ``custom_feedback``
 3. Configure your setting file:

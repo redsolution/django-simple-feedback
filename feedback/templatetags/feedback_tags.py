@@ -1,57 +1,52 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from classytags.arguments import Argument
 from classytags.core import Tag, Options
 from django import template
 from django.template.loader import render_to_string
-from django.template.context import RequestContext
-from django.utils.translation import gettext_lazy as _
 from feedback.utils import get_feedback_form
 from feedback.settings import DEFAULT_FORM_KEY, PREFIX_KEY_FIELDS
-from django.forms.fields import BooleanField
 
 register = template.Library()
 
+
+@register.tag
 class ShowFeedback(Tag):
+
     name = 'show_feedback'
-    
     options = Options(Argument('form_key', required=False, resolve=False))
-    
+
     def render_tag(self, context, form_key):
-        form_key = form_key if form_key else DEFAULT_FORM_KEY
+        form_key = form_key or DEFAULT_FORM_KEY
         form = get_feedback_form(form_key)()
         if PREFIX_KEY_FIELDS:
             form.prefix = form_key
+        templates = ['feedback/%s/feedback.html' % form_key, 'feedback/feedback.html']
+        return render_to_string(templates, {'form': form}, context['request'])
 
-        return render_to_string([
-            'feedback/%s/feedback.html' % form_key,
-            'feedback/feedback.html',
-            ], {'form':form}, context_instance=RequestContext(context['request']))
 
-register.tag(ShowFeedback)
+@register.tag
+class ShowField(Tag):
 
-@register.filter
-def get_choice_value(bound_field):
-    '''Returns verbose name of choice value'''
-    value = None
+    """ Отображение поля с проверкой на принадлежность к набору формы """
 
-    if hasattr(bound_field.form.fields[bound_field.name], 'choices'):
-        for choice in bound_field.form.fields[bound_field.name].choices:
-            if bound_field.data:
-                if choice[0] == int(bound_field.data):
-                    value = choice[1]
-                    break
-            else:
-                value = _('None')
-    if value is None:
-        if type(bound_field.form.fields[bound_field.name]) is BooleanField:
-            if bound_field.data is None:
-                return _('None')
-            elif bound_field.data:
-                return _('Yes')
-            else:
-                return _('No')
-        else:
-            return bound_field.data
-    else:
-        return value
+    name = 'show_field'
+    options = Options(
+        Argument('field'),
+        'set',
+        Argument('form_set', required=False, resolve=False, default=False)
+    )
+
+    def render_tag(self, context, **kwargs):
+        field = kwargs.get('field')
+        form_set = kwargs.get('form_set')
+        attrs = field.field.widget.attrs
+        field_set = str(attrs.get('data-set', 0))
+        extra_context = {
+            'attrs': attrs,
+            'field': field,
+            'input_type': getattr(field.field.widget, 'input_type', 'textarea')
+        }
+        if form_set and form_set != field_set:
+            return ''
+        return render_to_string('feedback/field.html', extra_context, context['request'])

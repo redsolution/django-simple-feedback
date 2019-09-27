@@ -1,0 +1,6 @@
+<label class="{% if field.errors %}error{% endif %} {{ attrs.class }}">
+    {% if field.label %}
+        <span>{{ field.label }} {% if field.field.required %}*{% endif %}</span>
+    {% endif %}
+    {{ field }}
+</label>

@@ -38,7 +38,10 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     packages=find_packages(),
-    install_requires=['django-classy-tags >=0.3,<0.4'],
+    install_requires=[
+        'django-classy-tags >=0.3,<=0.9.0',
+        'django==1.11.*'
+    ],
     include_package_data=True,
     zip_safe=False,
     long_description=read('README'),

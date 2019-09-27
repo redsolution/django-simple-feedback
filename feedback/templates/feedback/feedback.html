@@ -1,21 +1,20 @@
-{% load i18n %}
-{{ form.media }}
+{% load i18n feedback_tags %}
 <form action="{% url 'ajax_feedback' key=form.get_settings_key %}"
-		method="post" id="id_feedback_form_{{ form.get_settings_key }}"
-		class="feedback_form" >
-    <table>
-        {{ form.as_table }}
-        <tr><td colspan="2" class="center submit ">
-		{% csrf_token %}
-        <input type="submit" value="{% trans 'Send' %}" />
-        </td></tr>
-    </table>
+      method="post" id="id_feedback_form_{{ form.get_settings_key }}"
+      class="feedback-form {{ form.get_settings_key }}" novalidate >
+
+    <h2>{{ form.title }}</h2>
+
+    {{ form.media }}
+    {% csrf_token %}
+    {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+    {{ form.message_ }}
+
+    {% for field in form.visible_fields %}
+        {% show_field %}
+    {% endfor %}
+
+    <div class="btn-holder">
+        <input type="submit" class="btn" value="{% trans 'Send' %}"/>
+    </div>
 </form>
-<script type="text/javascript">
-	$(function(){
-		$('#id_feedback_form_{{ form.get_settings_key }}').submit(function(){
-			feedback.submit($('#id_feedback_form_{{ form.get_settings_key }}'));
-			return false;
-		});
-	});
-</script>

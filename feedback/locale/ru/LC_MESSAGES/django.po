@@ -7,139 +7,183 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-03 13:37+0600\n"
-"PO-Revision-Date: 2012-04-03 13:36+0500\n"
+"POT-Creation-Date: 2019-09-04 14:10+0500\n"
+"PO-Revision-Date: 2015-10-29 18:13+0500\n"
 "Last-Translator: Ivan Gromov <ivan.gromov@redsolution.ru>\n"
 "Language-Team: RU <src@redsolution.ru>\n"
+"Language: russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
+"X-Generator: Poedit 1.5.4\n"
 
-#: forms.py:20
-#, fuzzy
-msgid "feedback"
-msgstr "Обратная связь"
+#: feedback/admin.py:29
+msgid "email message"
+msgstr "e-mail сообщение"
 
-#: forms.py:28
-msgid "Form type"
-msgstr "Тип формы"
-
-#: forms.py:135
-msgid "Email"
-msgstr "Электронная почта"
-
-#: forms.py:136
-msgid "Topic"
-msgstr "Тема"
-
-#: forms.py:137
-msgid "Message text"
-msgstr "Текст сообщения"
-
-#: forms.py:139
-msgid "Feedback form"
-msgstr "Обратная связь"
-
-#: models.py:16
-msgid "response attachment"
-msgstr "Приложение"
-
-#: models.py:17
-#, fuzzy
-msgid "response attachments"
-msgstr "отзывы"
-
-#: models.py:22
-msgid "Sending time"
-msgstr "Время отправки"
-
-#: models.py:23
-msgid "Content response"
-msgstr "Содержимое отзыва"
-
-#: models.py:37
-msgid "response"
-msgstr "отзыв"
-
-#: models.py:38
-msgid "responses"
-msgstr "отзывы"
-
-#: redsolution_setup/models.py:8
-msgid "Checkbox"
-msgstr "Флажок"
-
-#: redsolution_setup/models.py:9
-msgid "Character field"
-msgstr "Текстовое поле"
-
-#: redsolution_setup/models.py:10
-msgid "Text area"
-msgstr "Большое текстовое поле"
-
-#: redsolution_setup/models.py:11
-msgid "Email field"
-msgstr "Электронная почта"
-
-#: redsolution_setup/models.py:32
-msgid "Use custom feedback form"
-msgstr "Использовать свою форму обратной связи"
-
-#: redsolution_setup/models.py:40
-msgid "Type of field"
-msgstr "Тип поля"
-
-#: redsolution_setup/models.py:42
-msgid "Verbose name of field"
-msgstr "Название поля"
-
-#: templates/admin/change_form_template.html:4
-msgid "View response"
-msgstr "Просмотр отзыва"
-
-#: templates/admin/change_form_template.html:4
-msgid "Django site admin"
-msgstr "Администрирование Django"
-
-#: templates/admin/change_form_template.html:7
-#, python-format
-msgid "\"%(subject)s\" response"
-msgstr "Просмотр отзыва, отправленного через форму &laquo;%(subject)s&raquo;"
-
-#: templates/admin/change_form_template.html:15
-msgid "Field"
-msgstr "Поле"
-
-#: templates/admin/change_form_template.html:16
-#, fuzzy
-msgid "Content"
-msgstr "Содержимое отзыва"
-
-#: templates/admin/change_form_template.html:34
-msgid "Attachments"
-msgstr "Приложения"
-
-#: templates/feedback/feedback.html:7
-msgid "Send"
-msgstr "Отправить"
-
-#: templates/feedback/feedback_page.html:10
+#: feedback/apps.py:7
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: templates/feedback/thankyou.html:2
-msgid "Your feedback sent, thank you! "
-msgstr "Ваш отзыв принят, спасибо!"
+#: feedback/forms.py:38
+msgid "For each feedback form you can specify only one mailing list!"
+msgstr ""
+"Для каждой формы обратной связи вы можете указать только один список "
+"рассылки!"
 
-#: templatetags/feedback_tags.py:34 templatetags/feedback_tags.py:38
-msgid "None"
-msgstr "Отсутствует"
-
-#: templatetags/feedback_tags.py:40
+#: feedback/forms.py:131
 msgid "Yes"
 msgstr "Да"
 
-#: templatetags/feedback_tags.py:42
+#: feedback/forms.py:131
 msgid "No"
 msgstr "Нет"
+
+#: feedback/forms.py:174 feedback/models.py:20
+msgid "Email"
+msgstr "Электронная почта"
+
+#: feedback/forms.py:175
+msgid "Topic"
+msgstr "Тема"
+
+#: feedback/forms.py:177
+msgid "Message text"
+msgstr "Текст сообщения"
+
+#: feedback/models.py:12
+msgid "Email address"
+msgstr "Адрес электронной почты"
+
+#: feedback/models.py:13
+msgid "Email addresses"
+msgstr "Адреса электронной почты"
+
+#: feedback/models.py:16
+msgid "Receiver's name"
+msgstr "Имя получателя"
+
+#: feedback/models.py:29
+msgid "Mailing list"
+msgstr "Список рассылки"
+
+#: feedback/models.py:30
+msgid "Mailing lists"
+msgstr "Списки рассылки"
+
+#: feedback/models.py:33
+msgid "List title"
+msgstr "Название списка"
+
+#: feedback/models.py:39
+msgid "List of addresses"
+msgstr "Список адресов электрннной почты"
+
+#: feedback/models.py:44
+msgid "Default sender email"
+msgstr "Адрес электронной почты отправителя по умолчанию"
+
+#: feedback/models.py:49
+msgid "form"
+msgstr "форма"
+
+
+#: feedback/models.py:54
+msgid "form title"
+msgstr "Заголовок формы"
+
+#: feedback/models.py:58
+msgid "Success message"
+msgstr "Текст сообщения после успешной отправки формы"
+
+#: feedback/models.py:61
+msgid "Message subject"
+msgstr "Тема сообщения"
+
+#: feedback/models.py:66
+msgid "Message template"
+msgstr "Шаблон текста сообщения"
+
+#: feedback/redsolution_setup/models.py:8
+msgid "Checkbox"
+msgstr "Флажок"
+
+#: feedback/redsolution_setup/models.py:9
+msgid "Character field"
+msgstr "Текстовое поле"
+
+#: feedback/redsolution_setup/models.py:10
+msgid "Text area"
+msgstr "Большое текстовое поле"
+
+#: feedback/redsolution_setup/models.py:11
+msgid "Email field"
+msgstr "Электронная почта"
+
+#: feedback/redsolution_setup/models.py:32
+msgid "Use custom feedback form"
+msgstr "Использовать свою форму обратной связи"
+
+#: feedback/redsolution_setup/models.py:40
+msgid "Type of field"
+msgstr "Тип поля"
+
+#: feedback/redsolution_setup/models.py:42
+msgid "Verbose name of field"
+msgstr "Название поля"
+
+#: feedback/templates/feedback/feedback.html:18
+msgid "Send"
+msgstr "Отправить"
+
+#~ msgid "feedback"
+#~ msgstr "обратная связь"
+
+#~ msgid "Feedback form"
+#~ msgstr "Обратная связь"
+
+#~ msgid "Your feedback sent, thank you! "
+#~ msgstr "Ваше сообщение отправлено, спасибо!"
+
+#~ msgid "None"
+#~ msgstr "Отсутствует"
+
+#~ msgid "response attachment"
+#~ msgstr "Приложение"
+
+#~ msgid "response attachments"
+#~ msgstr "Вложения"
+
+#~ msgid "Sending time"
+#~ msgstr "Время отправки"
+
+#~ msgid "Content response"
+#~ msgstr "Содержимое отзыва"
+
+#~ msgid "response"
+#~ msgstr "отзыв"
+
+#~ msgid "responses"
+#~ msgstr "отзывы"
+
+#~ msgid "View response"
+#~ msgstr "Просмотр отзыва"
+
+#~ msgid "Django site admin"
+#~ msgstr "Администрирование Django"
+
+#~ msgid "\"%(subject)s\" response"
+#~ msgstr ""
+#~ "Просмотр отзыва, отправленного через форму &laquo;%(subject)s&raquo;"
+
+#~ msgid "Field"
+#~ msgstr "Поле"
+
+#~ msgid "Attachments"
+#~ msgstr "Приложения"
+
+#~ msgid "Your feedback contain suspicious content!"
+#~ msgstr "Сообщение содержит подозрительный контент"
+
+#~ msgid "Message has been rejected"
+#~ msgstr "Сообщение отклонено"

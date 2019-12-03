@@ -1,19 +1,36 @@
-;
-feedback = {
-    submit: function(form){
-        var data = {};
 
-        var feedback_url = $(form).attr('action');
-        var form_array = $(form).serializeArray();
-        for (i=0;i<form_array.length;i++){
-            var key = form_array[i].name;
-            var value = form_array[i].value;
+function insertAndExecute(form, text) {
 
-            data[key] = value;
+    /** Update form and execute form js */
+
+    form.innerHTML = text;
+    var scripts = Array.prototype.slice.call(form.getElementsByTagName("script"));
+    for (var i = 0; i < scripts.length; i++) {
+        var scriptNode = document.createElement("script");
+        if (scripts[i].src != "") {
+            scriptNode.src = scripts[i].src;
         }
-        $.post(feedback_url, data, function(data, textStatus){
-            $(form).replaceWith(data).show();
-        });
-        return false;
+        else {
+            scriptNode.innerHTML = scripts[i].innerHTML;
+        }
+        document.getElementsByTagName("head")[0].appendChild(scriptNode);
     }
-};
+}
+
+document.querySelectorAll('.feedback-form').forEach(function(form){
+    form.addEventListener('submit', async function(event){
+
+        /** Ajax submit for all feedback forms */
+
+        event.preventDefault()
+        let response = await fetch(form.getAttribute('action'), {
+            method: 'POST',
+            body: new FormData(form)
+        })
+        if(response.ok) {
+            insertAndExecute(form, await response.text())
+        } else {
+            console.log(response.status)
+        }
+    })
+})

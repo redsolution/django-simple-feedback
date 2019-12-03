@@ -1,51 +1,41 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'ResponseAttachments'
-        db.create_table('feedback_responseattachments', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('file', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
-            ('response', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['feedback.Response'])),
-        ))
-        db.send_create_signal('feedback', ['ResponseAttachments'])
+    dependencies = [
+    ]
 
-        # Adding model 'Response'
-        db.create_table('feedback_response', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('send_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('response', self.gf('django.db.models.fields.TextField')()),
-        ))
-        db.send_create_signal('feedback', ['Response'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'ResponseAttachments'
-        db.delete_table('feedback_responseattachments')
-
-        # Deleting model 'Response'
-        db.delete_table('feedback_response')
-
-
-    models = {
-        'feedback.response': {
-            'Meta': {'object_name': 'Response'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'response': ('django.db.models.fields.TextField', [], {}),
-            'send_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
-        },
-        'feedback.responseattachments': {
-            'Meta': {'object_name': 'ResponseAttachments'},
-            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'response': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['feedback.Response']"})
-        }
-    }
-
-    complete_apps = ['feedback']
+    operations = [
+        migrations.CreateModel(
+            name='FeedbackEmail',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=200, null=True, verbose_name="Receiver's name", blank=True)),
+                ('email', models.EmailField(max_length=200, verbose_name='Email')),
+            ],
+            options={
+                'verbose_name': 'Email address',
+                'verbose_name_plural': 'Email addresses',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='MailingList',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(max_length=200, null=True, verbose_name='List title')),
+                ('form', models.CharField(unique=True, max_length=100, verbose_name='Feedback form')),
+                ('default_from', models.EmailField(max_length=200, null=True, verbose_name='Default sender email', blank=True)),
+                ('emails', models.ManyToManyField(related_name='forms', verbose_name='List of addresses', to='feedback.FeedbackEmail', blank=True)),
+            ],
+            options={
+                'verbose_name': 'Mailing list',
+                'verbose_name_plural': 'Mailing lists',
+            },
+            bases=(models.Model,),
+        ),
+    ]

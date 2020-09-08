@@ -15,12 +15,6 @@ class FeedbackEmailAdmin(ModelAdmin):
 @admin.register(MailingList)
 class MailingListAdmin(ModelAdmin):
 
-    @property
-    def media(self):
-        media = super(MailingListAdmin, self).media
-        media.add_css(ADMIN_EXTRA_CSS)
-        return media
-
     form = MailingListAdminForm
     filter_horizontal = ['emails']
     fieldsets = (

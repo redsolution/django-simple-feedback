@@ -20,7 +20,7 @@ class FeedbackEmail(models.Model):
         verbose_name=_('Email'), max_length=200
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s: %s' % (self.name, self.email,) if self.name else self.email
 
 
@@ -67,5 +67,5 @@ class MailingList(models.Model):
         default='', blank=True
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title 

@@ -39,7 +39,7 @@ class MailingListAdminForm(models.ModelForm):
 
     form = ChoiceField(
         label=_('form'), choices=make_form_choices(),
-        widget=forms.Select(attrs={'class':  get_extra_class('form')})
+        widget=forms.Select(attrs={'class': get_extra_class('form')})
     )
 
     class Meta:
@@ -72,7 +72,7 @@ class BaseFeedbackForm(forms.Form):
         ''' Finds its own class in settings.FEEDBACK_FORMS dictionary and returns appropriate key '''
 
         reverse_forms_dict = dict(
-            (v.rsplit('.', 1)[1], k) for k, v in FEEDBACK_FORMS.iteritems()
+            (v.rsplit('.', 1)[1], k) for k, v in FEEDBACK_FORMS.items()
         )
         return reverse_forms_dict.get(self.__class__.__name__, DEFAULT_FORM_KEY)
 
@@ -109,8 +109,8 @@ class BaseFeedbackForm(forms.Form):
             if len(self.cleaned_data.get('message_', '')):
                 self._errors['message_'] = 'unhuman message found'
         if FEEDBACK_ANTISPAM['BLOCKING_EXTERNAL_LINKS']:
-            for key, value in self.cleaned_data.iteritems():
-                if isinstance(value, unicode) and 'href=' in value:
+            for key, value in self.cleaned_data.items():
+                if isinstance(value, str) and 'href=' in value:
                     self._errors['message_'] = 'external links found'
 
         return self.cleaned_data
@@ -123,7 +123,7 @@ class BaseFeedbackForm(forms.Form):
         if hasattr(field.form.fields[field.name], 'choices'):
             for choice in field.form.fields[field.name].choices:
                 if field.data:
-                    if unicode(choice[0]) == unicode(field.data):
+                    if str(choice[0]) == str(field.data):
                         value = choice[1]
                         break
         elif type(field.form.fields[field.name]) is forms.BooleanField:
@@ -162,7 +162,7 @@ class BaseFeedbackForm(forms.Form):
 
         message = self.render_message(request)
         headers = {}
-        if self.cleaned_data.has_key('email'):
+        if 'email' in self.cleaned_data:
             headers = {'Reply-to': self.cleaned_data.get('email')}
 
         msg = EmailMessage(self.subject, message, self.sender, self.recipients, headers=headers)

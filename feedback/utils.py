@@ -10,7 +10,7 @@ def import_item(path, error_text):
     module, attr = path[:i], path[i + 1:]
     try:
         return getattr(__import__(module, {}, {}, ['']), attr)
-    except ImportError, e:
+    except ImportError as e:
         raise ImproperlyConfigured('Error importing %s %s: "%s"' % (error_text, path, e))
 
 

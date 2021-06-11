@@ -8,6 +8,7 @@ from django.forms import models, ChoiceField
 from settings import DEFAULT_FORM_KEY, FEEDBACK_FORMS,  FEEDBACK_FORMS_NAMES
 from models import MailingList
 from .settings import FEEDBACK_ANTISPAM
+from django.core.exceptions import PermissionDenied
 
 
 def make_form_choices():
@@ -54,10 +55,12 @@ class BaseFeedbackForm(forms.Form):
         if FEEDBACK_ANTISPAM['CHECKING_HIDDEN_FIELD']:
             if len(self.cleaned_data.get('message_', '')):
                 self._errors['message_'] = 'unhuman message found'
+                raise PermissionDenied
         if FEEDBACK_ANTISPAM['BLOCKING_EXTERNAL_LINKS']:
             for key, value in self.cleaned_data.iteritems():
                 if isinstance(value, unicode) and 'href=' in value:
                     self._errors['message_'] = 'external links found'
+                    raise PermissionDenied
 
         return self.cleaned_data
 

@@ -9,6 +9,7 @@ from django.core.mail.message import EmailMessage
 from django.forms import models
 from models import MailingList, forms as form_list
 from .settings import FEEDBACK_ANTISPAM
+from django.core.exceptions import PermissionDenied
 
 
 class MailingListForm(models.ModelForm):
@@ -36,10 +37,12 @@ class BaseFeedbackForm(forms.Form):
         if FEEDBACK_ANTISPAM['CHECKING_HIDDEN_FIELD']:
             if len(self.cleaned_data.get('message_', '')):
                 self._errors['message_'] = 'unhuman message found'
+                raise PermissionDenied
         if FEEDBACK_ANTISPAM['BLOCKING_EXTERNAL_LINKS']:
             for key, value in self.cleaned_data.iteritems():
                 if isinstance(value, unicode) and 'href=' in value:
                     self._errors['message_'] = 'external links found'
+                    raise PermissionDenied
 
         return self.cleaned_data
 
